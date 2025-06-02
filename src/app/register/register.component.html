@@ -1,26 +1,26 @@
 <div class="container">
     <h2 class="text-center" style="margin-bottom: 30px; font-weight: bold;">Register</h2>
-    <form >
+    <form (ngSubmit)="registerUser()" #registerForm="ngForm">
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" placeholder="Enter first name" />
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" [(ngModel)]="registerData.firstName" required />
           </div>
         <div class="mb-3">
             <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="lastName" placeholder="Enter last name" />
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name" [(ngModel)]="registerData.lastName" required/>
         </div>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" [(ngModel)]="registerData.email" required />
           <div id="emailHelp" class="form-text"></div>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" [(ngModel)]="registerData.password" required />
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword2">
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" [(ngModel)]="registerData.confirmPassword" required />
         </div>
         <button type="Login" class="btn btn-primary">Submit</button>
       </form>
