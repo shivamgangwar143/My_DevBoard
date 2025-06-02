@@ -22,23 +22,22 @@ export class UserentryComponent {
       u.email === this.loginData.email && u.password === this.loginData.password
     );
 
-    if (user) {
-      // Save logged-in user info (optional)
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
+    // if (user) {
+    //   // Save logged-in user info (optional)
+    //   const users = JSON.parse(localStorage.getItem('users') || '[]');
 
-      const user = users.find(
-        (u: any) =>
-          u.email === this.loginData.email &&
-          u.password === this.loginData.password
-      );
+    //   const user = users.find(
+    //     (u: any) =>
+    //       u.email === this.loginData.email &&
+    //       u.password === this.loginData.password
+    //   );
 
       if (user) {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.router.navigate(['/profile']);
       } else {
         alert('Invalid email or password.');
-      }
-    }
+      }    
   }
 
   ngOnInit(): void {
