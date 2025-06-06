@@ -1,0 +1,12 @@
+.todolist{
+    margin: 10px;
+    max-height: 500px;    /* Set the height limit */
+    overflow-y: auto;     /* Enables vertical scrolling */
+    overflow-x: hidden;   /* Prevent horizontal scroll */
+    background-color: rgb(240, 244, 244);
+}
+
+.container{
+    max-width: 600px; /* Set a maximum width for the container */
+    margin-top: 60px; /* Adjust margin to avoid overlap with header */
+}

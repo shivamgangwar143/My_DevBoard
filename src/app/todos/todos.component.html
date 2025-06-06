@@ -1,0 +1,13 @@
+<h1 class="text-center mb-3">Task Manager</h1>
+<div class="container">
+    <app-add-todo (todoAdd)="addTodo($event)"></app-add-todo>
+    <div class="todolist">
+        <h4>Your ToDos</h4>
+        <div *ngIf="this.todos.length===0; else elseBlock">No Todos to display.</div>
+        <ng-template #elseBlock>
+            <div class="todoitem" *ngFor="let todo of todos">
+                <app-todo-item [todo]="todo" (todoDelete)="deleteTodo($event)" (todoCheckbox)="toggleTodo($event)"
+                    (todoEdit)="editTodo($event)"></app-todo-item>
+            </div>
+        </ng-template>
+    </div>

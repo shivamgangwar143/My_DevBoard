@@ -11,6 +11,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TodosComponent } from './todos/todos.component';
+import { TodoItemComponent } from './todo-item/todo-item.component';
+import { AddTodoComponent } from './add-todo/add-todo.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { CommonModule } from '@angular/common';
     AuthLayoutComponent,
     FullLayoutComponent,
     NavbarComponent,
-    ProfileComponent
+    ProfileComponent,
+    TodosComponent,
+    TodoItemComponent,
+    AddTodoComponent
   ],
   imports: [
     BrowserModule,
