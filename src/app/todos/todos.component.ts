@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Todo } from '../Todo';
 
 @Component({
@@ -10,6 +10,10 @@ export class TodosComponent implements OnInit {
 
   localItem: string | null;
   todos: Todo[] | any;
+  leftWidth = 20; // in percentage
+  rightWidth = 50;
+  resizing = false;
+  selectedTodo: any;
 
   constructor() { 
     this.localItem = localStorage.getItem("todos");
@@ -52,5 +56,23 @@ export class TodosComponent implements OnInit {
       console.log("Todo edited");
     }
   }
+  startResize(event: MouseEvent) {
+    this.resizing = true;
+    event.preventDefault();
+  }
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (this.resizing) {
+      const totalWidth = window.innerWidth;
+      this.leftWidth = (event.clientX / totalWidth) * 100;
+      this.rightWidth = 100 - this.leftWidth;
+    }
+  }
+
+  @HostListener('document:mouseup')
+  stopResize() {
+    this.resizing = false;
+  }
+
 
 }

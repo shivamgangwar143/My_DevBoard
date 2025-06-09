@@ -7,21 +7,25 @@ import { FullLayoutComponent } from './layouts/full-layout/full-layout.component
 import { AppComponent } from './app.component';
 import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
+import { TodosComponent } from './todos/todos.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: '', component: UserentryComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: '', component: HomeComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'login', component: UserentryComponent }
     ]
   },
   {
     path: '',
     component: FullLayoutComponent,
     children: [
-      { path: 'profile', component: AppComponent }
+      { path: 'profile', component: AppComponent },
+      { path: 'tasks', component: TodosComponent }
       // Add more secure routes here
     ]
   },

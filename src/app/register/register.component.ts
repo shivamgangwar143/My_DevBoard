@@ -13,7 +13,8 @@ export class RegisterComponent implements OnInit {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'team member | admin' 
   };
 
   constructor(private router: Router) { }

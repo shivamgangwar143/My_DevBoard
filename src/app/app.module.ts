@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { TodosComponent } from './todos/todos.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AddTodoComponent } from './add-todo/add-todo.component';
     ProfileComponent,
     TodosComponent,
     TodoItemComponent,
-    AddTodoComponent
+    AddTodoComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
