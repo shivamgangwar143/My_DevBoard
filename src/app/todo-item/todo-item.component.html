@@ -1,0 +1,17 @@
+<div *ngIf="!isEditing; else editMode" class="my-3">
+    <h5 [ngClass]="{'strike': !todo.active}">{{todo.title}}</h5>
+    <p [ngClass]="{'strike': !todo.active}">{{todo.desc}}</p>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" (click)="onCheckboxClick(todo)" [checked]="!todo.active">
+        <label class="form-check-label" for="exampleCheck1">Done</label>
+      </div>
+    <button class="btn btn-danger btn-sm" (click)="onClick(todo)">Delete</button>
+    <button class="btn btn-secondary btn-sm" (click)="startEditing()">Edit</button>    
+</div>
+
+<ng-template #editMode>
+  <input [(ngModel)]="editableTitle" />
+  <input [(ngModel)]="editableDesc" />
+  <button class="btn btn-success btn-sm" (click)="saveEdit()">Save</button>
+  <button class="btn btn-danger btn-sm" (click)="cancelEdit()">Cancel</button>
+</ng-template>

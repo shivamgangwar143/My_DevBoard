@@ -1,0 +1,17 @@
+.header{
+    background-color: rgb(3, 123, 228);
+}
+
+.navbar-brand{
+    font-weight: bold;
+}
+html, body, app-root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+* {
+    box-sizing: border-box;
+}

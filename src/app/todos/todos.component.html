@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="left-pane box" [ngStyle]="{ width: leftWidth + '%' }">
+        <div class="todo-header">
+            <app-add-todo (todoAdd)="addTodo($event)"></app-add-todo>
+            <div class="todolist">
+                <h4>Your ToDos</h4>
+                <div *ngIf="this.todos.length===0; else elseBlock">No Todos to display.</div>
+                <ng-template #elseBlock>
+                    <div class="todoitem" *ngFor="let todo of todos">
+                        <app-todo-item [todo]="todo" (todoDelete)="deleteTodo($event)"
+                            (todoCheckbox)="toggleTodo($event)" (todoEdit)="editTodo($event)">
+                        </app-todo-item>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div class="resizer" (mousedown)="startResize($event)"></div>
+
+    <div class="right-pane box" [ngStyle]="{ width: 100 - leftWidth + '%' }">
+        <div>
+            <h4 class="text-center">Task Details</h4>
+            <div class="card-container">
+                <div class="card">
+                    <h5>Today</h5>
+                    <!-- Add tasks here -->
+                </div>
+                <div class="card">
+                    <h5>This Week</h5>
+                    <!-- Add tasks here -->
+                </div>
+                <div class="card">
+                    <h5>Later</h5>
+                    <!-- Add tasks here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
