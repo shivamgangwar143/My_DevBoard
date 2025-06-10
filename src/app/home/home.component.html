@@ -7,15 +7,17 @@
   
     <div class="card-container">
       <div class="card">
-        <div class="icon">🔐</div>
-        <h2>Sign In</h2>
+        <div><i class="bi bi-box-arrow-in-right fs-1"></i></div>
+        <br>
+        <h2 style="color: blue;">Sign In</h2>
         <p style="margin-bottom: 48px;">Access your existing account</p>
         <button (click)="navigateTo('signin')">Sign In to Your Account</button>
       </div>
   
       <div class="card">
-        <div class="icon">🆕</div>
-        <h2>Sign Up</h2>
+        <div><i class="bi bi-person-plus fs-1"></i></div>
+        <br>
+        <h2 style="color: green;">Sign Up</h2>
         <p>Create a new account to get started</p>
         <button class="signup" (click)="navigateTo('signup')">Create New Account</button>
       </div>

@@ -15,6 +15,7 @@ import { TodosComponent } from './todos/todos.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { HomeComponent } from './home/home.component';
+import { AdminDashComponent } from './admin-dash/admin-dash.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HomeComponent } from './home/home.component';
     TodosComponent,
     TodoItemComponent,
     AddTodoComponent,
-    HomeComponent
+    HomeComponent,
+    AdminDashComponent
   ],
   imports: [
     BrowserModule,

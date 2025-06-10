@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Todo } from '../Todo';
+import { log } from 'console';
 
 @Component({
   selector: 'app-todos',
@@ -14,6 +15,7 @@ export class TodosComponent implements OnInit {
   rightWidth = 50;
   resizing = false;
   selectedTodo: any;
+  showCreateTask: boolean = false;
 
   constructor() { 
     this.localItem = localStorage.getItem("todos");
@@ -26,6 +28,12 @@ export class TodosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  toggleCreateTask() {
+    this.showCreateTask = !this.showCreateTask;
+    console.log("working");
+    
   }
 
   deleteTodo(todo: Todo) {

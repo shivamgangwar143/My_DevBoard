@@ -72,4 +72,19 @@
     color: #888;
     font-size: 0.95rem;
   }
+  .bi{
+    font-size: 2.5rem;
+    padding: 0.4rem;
+    border-radius: 40px;
+  }
+
+.bi-box-arrow-in-right{
+  background-color: #d2d5da;
+  color: blue;
+  
+}
+.bi-person-plus{
+  background-color: #bde7b6;
+  
+}
   
