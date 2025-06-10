@@ -39,7 +39,8 @@ export class RegisterComponent implements OnInit {
       firstName: this.registerData.firstName,
       lastName: this.registerData.lastName,
       email: this.registerData.email,
-      password: this.registerData.password
+      password: this.registerData.password,
+      role: this.registerData.role
     });
 
     localStorage.setItem('users', JSON.stringify(users));

@@ -10,7 +10,8 @@ export class UserentryComponent {
 
   loginData = {
     email: '',
-    password: ''
+    password: '',
+    role: 'member'
   };
 
   constructor(private router: Router) { }
@@ -31,6 +32,11 @@ export class UserentryComponent {
     //       u.email === this.loginData.email &&
     //       u.password === this.loginData.password
     //   );
+    if (this.loginData.role === 'admin') {
+      this.router.navigate(['/admin-dash']);
+    }else {
+      this.router.navigate(['/member-dash']);
+    }
 
       if (user) {
         localStorage.setItem('currentUser', JSON.stringify(user));
