@@ -24,7 +24,7 @@
                     <h4 class="dash-title fw-bold">Admin Dashboard</h4>
                     <p class="mb-0">Manage tasks and monitor team progress</p>
                 </div>
-                <button (click)="toggleCreateTask()" type="button" class="btn btn-dark btn-sm">+ Create Task</button>
+                <button *ngIf="auth.getUserRole() === 'admin'" (click)="toggleCreateTask()" type="button" class="btn btn-dark btn-sm">+ Create Task</button>
             </div>
 
             <div class="card-container">

@@ -34,8 +34,6 @@ export class UserentryComponent {
     //   );
     if (this.loginData.role === 'admin') {
       this.router.navigate(['/admin-dash']);
-    }else {
-      this.router.navigate(['/member-dash']);
     }
 
       if (user) {

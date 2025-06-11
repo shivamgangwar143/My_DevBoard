@@ -9,8 +9,9 @@ import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
 import { TodosComponent } from './todos/todos.component';
 import { HomeComponent } from './home/home.component';
-import { AdminDashComponent } from './admin-dash/admin-dash.component';
-import { MemberDashComponent } from './member-dash/member-dash.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { RoleGuard } from './role.guard';
+
 
 const routes: Routes = [
   {
@@ -20,8 +21,8 @@ const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'login', component: UserentryComponent },
-      { path: 'admin-dash', component: AdminDashComponent },
-      { path: 'member-dash', component: MemberDashComponent }
+      { path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard] },
+      
     ]
   },
   {

@@ -15,8 +15,9 @@ import { TodosComponent } from './todos/todos.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { HomeComponent } from './home/home.component';
-import { AdminDashComponent } from './admin-dash/admin-dash.component';
-import { MemberDashComponent } from './member-dash/member-dash.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,8 +32,7 @@ import { MemberDashComponent } from './member-dash/member-dash.component';
     TodoItemComponent,
     AddTodoComponent,
     HomeComponent,
-    AdminDashComponent,
-    MemberDashComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +40,9 @@ import { MemberDashComponent } from './member-dash/member-dash.component';
     CommonModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
