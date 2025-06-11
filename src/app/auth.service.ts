@@ -6,7 +6,7 @@ import { HttpClient as HtttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private api = 'http://localhost:4200'
+  private api = 'http://localhost:3000/login'
 
   constructor(private http: HtttpClient, private router: Router) { }
   login(credentials: { email: string; password: string; role: string }) {

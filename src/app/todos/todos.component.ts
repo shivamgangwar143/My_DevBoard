@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Todo } from '../Todo';
 import { log } from 'console';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-todos',
@@ -17,7 +18,7 @@ export class TodosComponent implements OnInit {
   selectedTodo: any;
   showCreateTask: boolean = false;
 
-  constructor() { 
+  constructor(public auth: AuthService) { 
     this.localItem = localStorage.getItem("todos");
     if(this.localItem == null) {
     this.todos = [];
