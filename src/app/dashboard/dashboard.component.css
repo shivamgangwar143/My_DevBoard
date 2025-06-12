@@ -86,3 +86,23 @@ body {
     margin-right: 5px;
     
 }
+.list-group-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+/* .list-group{
+    width: auto;
+} */
+ .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+.all-tasks {
+    margin-top: 8px;
+    background-color: white;
+}

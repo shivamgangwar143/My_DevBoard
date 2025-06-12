@@ -1,62 +1,18 @@
 <div class="container">
-    <div class="left-pane box" [ngStyle]="{ width: leftWidth + '%' }">
-        <div class="todo-header">
-            <app-add-todo (todoAdd)="addTodo($event)"></app-add-todo>
-            <div class="todolist">
-                <h4>Your ToDos</h4>
-                <div *ngIf="this.todos.length===0; else elseBlock">No Todos to display.</div>
-                <ng-template #elseBlock>
-                    <div class="todoitem" *ngFor="let todo of todos">
-                        <app-todo-item [todo]="todo" (todoDelete)="deleteTodo($event)"
-                            (todoCheckbox)="toggleTodo($event)" (todoEdit)="editTodo($event)">
-                        </app-todo-item>
-                    </div>
-                </ng-template>
-            </div>
+
+    <div class="todo-header">
+        <app-add-todo (todoAdd)="addTodo($event)"></app-add-todo>
+        <div class="todolist">
+            <h4>Your ToDos</h4>
+            <div *ngIf="this.todos.length===0; else elseBlock">No Todos to display.</div>
+            <ng-template #elseBlock>
+                <div class="todoitem" *ngFor="let todo of todos">
+                    <app-todo-item [todo]="todo" (todoDelete)="deleteTodo($event)" (todoCheckbox)="toggleTodo($event)"
+                        (todoEdit)="editTodo($event)">
+                    </app-todo-item>
+                </div>
+            </ng-template>
         </div>
     </div>
-    <div class="resizer" (mousedown)="startResize($event)"></div>
 
-    <div class="right-pane box" [ngStyle]="{ width: 100 - leftWidth + '%' }">
-        <div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h4 class="dash-title fw-bold">Admin Dashboard</h4>
-                    <p class="mb-0">Manage tasks and monitor team progress</p>
-                </div>
-                <button *ngIf="auth.getUserRole() === 'admin'" (click)="toggleCreateTask()" type="button" class="btn btn-dark btn-sm">+ Create Task</button>
-            </div>
-
-            <div class="card-container">
-                <div class="card">
-                    <h5>Total Tasks</h5>
-                    <div class="dash-icon">
-                        <i style="color: blue;" class="bi bi-graph-up-arrow fs-5"></i>
-                        <h3>4</h3>
-                    </div>
-                </div>
-                <div class="card">
-                    <h5>Comleted</h5>
-                    <div class="dash-icon">
-                        <i style="color: green;" class="bi bi-check2-circle fs-5"></i>
-                        <h3>4</h3>
-                    </div>
-                </div>
-                <div class="card">
-                    <h5>In Progress</h5>
-                    <div class="dash-icon">
-                        <i style="color: yellow;" class="bi bi-clock fs-5"></i>
-                        <h3>4</h3>
-                    </div>
-                </div>
-                <div class="card">
-                    <h5>Pending</h5>
-                    <div class="dash-icon">
-                        <i style="color: red;" class="bi bi-exclamation-circle fs-5"></i>
-                        <h3>4</h3>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+</div>

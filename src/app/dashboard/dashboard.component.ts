@@ -1,5 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Task } from '../task';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +15,16 @@ export class DashboardComponent implements OnInit {
   resizing = false;
   selectedTodo: any;
   showCreateTask: boolean = false;
+  userEmail: string | null = null;
+  userName: string | null = null;
+  userRole: string | null = null;
+  tasks: Task[] = []; // Initialize tasks array
 
   constructor(public auth: AuthService) { }
 
   ngOnInit(): void {
+    this.userName= this.auth.getUserEmail();
+    this.userRole = this.auth.getUserRole();
   }
 
   startResize(event: MouseEvent) {
@@ -27,6 +35,10 @@ export class DashboardComponent implements OnInit {
     toggleCreateTask() {
       this.showCreateTask = !this.showCreateTask;
       console.log("working"); 
+    }
+    logout() {
+      this.auth.logout();
+      console.log("Logged out");
     }
 
     @HostListener('document:mousemove', ['$event'])

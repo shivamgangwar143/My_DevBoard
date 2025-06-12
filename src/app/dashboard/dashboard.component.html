@@ -8,10 +8,36 @@
                 <h3>DevBoard</h3>
                 <p>Project Management</p>
             </div>
-            
         </div>
-        <div class="left-lower">
+        <div class="row" style="margin-top: 10px;">
+            <!-- <ul>
+                <li>Dashboard</li>
+                <li>Tasks</li>
+                <li>Team Members</li>
+                <li>Settings</li>
+            </ul> -->
+            <div class="col-4">
+                <div style="max-width: 100%;" class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list"
+                        href="#list-home" role="tab" aria-controls="list-home">Dashboard</a>
+                    <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list"
+                        href="#list-profile" role="tab" aria-controls="list-profile">Tasks</a>
+                    <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list"
+                        href="#list-messages" role="tab" aria-controls="list-messages">Team Members</a>
+                    <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list"
+                        href="#list-settings" role="tab" aria-controls="list-settings">Settings</a>
+                </div>
+            </div>
 
+        </div>
+        <div class="profile" style="margin-top: 477px;">
+            <div>
+                <p>Welcome, {{ userName }}</p>
+                <p>{{userRole}}</p>
+            </div>
+            <div class="signout text-center" >
+                <button (click)="logout()" type="button" class="btn btn-outline-secondary">Sign Out</button>
+            </div>
 
         </div>
     </div>
@@ -58,6 +84,28 @@
                     </div>
                 </div>
             </div>
+            <div class="all-tasks">
+                <h5 class="tasks-heading fw-bold">Recent Tasks</h5>
+                <p>All tasks across your teams</p>
+            </div>
+            <div class="tasks-cards">
+                <div class="card" >
+                    <div class="card-header" *ngFor="let task of tasks">
+                        <h5>{{ task.title }}</h5>
+                        <span class="badge bg-secondary">{{ task.status }}</span>
+                        <span class="badge bg-secondary">{{ task.priority }}</span>
+                    </div>
+                    <div class="card-body" *ngFor="let task of tasks">
+                        <p>{{ task.desc }}</p>
+                        <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
+                        <p><strong>Due Date:</strong> {{ task.dueDate | date:'shortDate' }}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            
 
         </div>
     </div>

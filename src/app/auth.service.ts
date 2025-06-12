@@ -53,5 +53,15 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getAccessToken();
   }
+  getUserEmail(): string | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+    return this.decodeToken(token).email;
+  }
+  // getUserName(): string | null {
+  //   const token = this.getAccessToken();
+  //   if (!token) return null;
+  //   return this.decodeToken(token).name;
+  // }
 }
 
