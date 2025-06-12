@@ -9,6 +9,9 @@ import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
 import { TodosComponent } from './todos/todos.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { RoleGuard } from './role.guard';
+
 
 const routes: Routes = [
   {
@@ -17,7 +20,9 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'login', component: UserentryComponent }
+      { path: 'login', component: UserentryComponent },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [RoleGuard] },
+      
     ]
   },
   {

@@ -68,7 +68,7 @@ html, body {
 }
 
 .left-pane{
-  background-color: #ddd;
+  background-color: white;
   height: 100%;
   overflow: auto;
   border: 1px solid #ddd;
@@ -81,7 +81,7 @@ html, body {
 .right-pane {
   height: 100%;
   overflow: auto;
-  background-color: #dfcccc;
+  background-color: #f5f7fa;
   border: 1px solid #ddd;
   border-radius: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -102,14 +102,21 @@ html, body {
 }
 
 .card {
+  align-items: center;
   flex: 1;
-  background-color: #f5f7fa;
+  background-color: white;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
-  min-height: 200px;
+  min-height: 180px;
+  min-width: 180px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
 }
-
+.dash-icon{
+  display: flex;
+}
+/* .bi{
+  font-size: large;
+} */

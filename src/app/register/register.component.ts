@@ -39,13 +39,14 @@ export class RegisterComponent implements OnInit {
       firstName: this.registerData.firstName,
       lastName: this.registerData.lastName,
       email: this.registerData.email,
-      password: this.registerData.password
+      password: this.registerData.password,
+      role: this.registerData.role
     });
 
     localStorage.setItem('users', JSON.stringify(users));
     alert('Registered successfully!');
 
-    this.router.navigate(['/']); // Redirect to login
+    this.router.navigate(['/login']); // Redirect to login
   }
 
   ngOnInit(): void {

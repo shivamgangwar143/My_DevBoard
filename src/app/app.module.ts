@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppComponent } from './app.component';
 import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
@@ -15,6 +17,9 @@ import { TodosComponent } from './todos/todos.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,15 +33,18 @@ import { HomeComponent } from './home/home.component';
     TodosComponent,
     TodoItemComponent,
     AddTodoComponent,
-    HomeComponent
-  ],
+    HomeComponent,
+    DashboardComponent  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
