@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Todo } from '../Todo';
-import { log } from 'console';
 import { AuthService } from '../auth.service';
 
 @Component({

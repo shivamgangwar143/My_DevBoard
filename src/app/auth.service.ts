@@ -14,7 +14,7 @@ export class AuthService {
       return this.http.post(`${this.api}/login`, credentials).subscribe((res: any) => {
         localStorage.setItem('accessToken', res.token);
         localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
-        this.router.navigate(['/tasks']);
+        this.router.navigate(['/dashboard']);
       });
       
     } catch (error) {
