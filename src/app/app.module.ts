@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppComponent } from './app.component';
 import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
@@ -32,13 +34,13 @@ import { AuthInterceptor } from './auth.interceptor';
     TodoItemComponent,
     AddTodoComponent,
     HomeComponent,
-    DashboardComponent
-  ],
+    DashboardComponent  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

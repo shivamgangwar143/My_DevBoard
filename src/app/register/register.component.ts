@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
     localStorage.setItem('users', JSON.stringify(users));
     alert('Registered successfully!');
 
-    this.router.navigate(['/']); // Redirect to login
+    this.router.navigate(['/login']); // Redirect to login
   }
 
   ngOnInit(): void {

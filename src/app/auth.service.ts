@@ -6,17 +6,25 @@ import { HttpClient as HtttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private api = 'http://localhost:3000/login'
+  private api = 'http://localhost:3000'
 
   constructor(private http: HtttpClient, private router: Router) { }
   login(credentials: { email: string; password: string; role: string }) {
-    return this.http.post(`${this.api}/login`, credentials).subscribe((res: any) => {
-      localStorage.setItem('accessToken', res.token);
-      localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
-      this.router.navigate(['/dashboard']);
-    });
+    try {
+      return this.http.post(`${this.api}/login`, credentials).subscribe((res: any) => {
+        localStorage.setItem('accessToken', res.token);
+        localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken));
+        this.router.navigate(['/tasks']);
+      });
+      
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+    
   
   }
+
   logout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
@@ -30,7 +38,7 @@ export class AuthService {
   }
   refreshToken() {
     const refreshToken = this.getrefreshToken();
-    return this.http.post('$(this.api)/refresh', { refreshToken });
+    return this.http.post(`${(this.api)}/refresh`, { refreshToken });
   }
   decodeToken(token: string): any {
     return JSON.parse(atob(token.split('.')[1]));
