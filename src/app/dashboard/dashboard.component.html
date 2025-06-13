@@ -5,7 +5,7 @@
                 <i class="bi bi-check2-square fs-3"></i>
             </div>
             <div style="padding-left: 5px;">
-                <h3>DevBoard</h3>
+                <h4>DevBoard</h4>
                 <p>Project Management</p>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <p>Welcome, {{ userName }}</p>
                 <p>{{userRole}}</p>
             </div>
-            <div class="signout text-center" >
+            <div class="signout text-center">
                 <button (click)="logout()" type="button" class="btn btn-outline-secondary">Sign Out</button>
             </div>
 
@@ -51,7 +51,56 @@
                     <p class="mb-0">Manage tasks and monitor team progress</p>
                 </div>
                 <button *ngIf="auth.getUserRole() === 'admin'" (click)="toggleCreateTask()" type="button"
-                    class="btn btn-dark btn-sm">+ Create Task</button>
+                    class="create-btn btn-dark btn-sm">+ Create Task</button>
+
+                <!-- Create Task Modal -->
+                <div id="createTaskModal" class="modal hidden">
+                    <div class="modal-content">
+                        <span class="close-btn" id="closeModal">&times;</span>
+                        <h2>Create New Task</h2>
+                        <p>Fill in the details below to create a new task for your team.</p>
+
+                        <form id="createTaskForm">
+                            <label>Title</label>
+                            <input type="text" id="taskTitle" placeholder="Enter task title" required />
+
+                            <label>Description</label>
+                            <textarea id="taskDescription" placeholder="Enter task description"></textarea>
+
+                            <div class="form-row">
+                                <div>
+                                    <label>Status</label>
+                                    <select id="taskStatus">
+                                        <option>Pending</option>
+                                        <option>In Progress</option>
+                                        <option>Completed</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Priority</label>
+                                    <select id="taskPriority">
+                                        <option>Low</option>
+                                        <option>Medium</option>
+                                        <option>High</option>
+                                        <option>Urgent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <label>Assignee</label>
+                            <input type="text" id="taskAssignee" placeholder="Enter assignee name" required />
+
+                            <label>Due Date</label>
+                            <input type="date" id="taskDueDate" required />
+
+                            <div class="modal-actions">
+                                <button type="button" id="cancelModal">Cancel</button>
+                                <button type="submit">Create Task</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
 
             <div class="card-container">
@@ -89,7 +138,7 @@
                 <p>All tasks across your teams</p>
             </div>
             <div class="tasks-cards">
-                <div class="card" >
+                <!-- <div class="card" >
                     <div class="card-header" *ngFor="let task of tasks">
                         <h5>{{ task.title }}</h5>
                         <span class="badge bg-secondary">{{ task.status }}</span>
@@ -101,11 +150,27 @@
                         <p><strong>Due Date:</strong> {{ task.dueDate | date:'shortDate' }}</p>
                     </div>
 
+                </div> -->
+                <div class="card" style="text-align: left;">
+                    <div class="card-header ">
+                        <h5>Redesign landing page</h5>
+                        <span class="badge bg-warning">Pending</span>
+                        <span class="badge bg-danger">high</span>
+                    </div>
+                    <div class="card-body" style="text-align: left;">
+                        <p>Update the main landing page with the new tranding and improved UX.</p>
+                        <div style="display: flex; justify-content: start; gap: 5px;">
+                            <p><strong>Assigned to:</strong> Shivam</p>
+                            <p><strong>Due Date:</strong>Jun15</p>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
 
-            
+
 
         </div>
     </div>

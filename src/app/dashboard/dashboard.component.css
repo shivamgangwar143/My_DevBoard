@@ -106,3 +106,112 @@ body {
     margin-top: 8px;
     background-color: white;
 }
+.card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.card:hover .dash-icon {
+    transform: scale(1.05);
+}
+.card:hover .logo-icon {
+    background-color: darkblue;
+}
+.card:hover .logo-icon i {
+    color: white;
+}
+.card-header {
+    display: flex;
+    gap: 5px;
+    text-align: left;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .modal-content p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .modal-content input,
+  .modal-content textarea,
+  .modal-content select {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .modal-content textarea {
+    resize: vertical;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .form-row > div {
+    flex: 1;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .modal-actions button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  #cancelModal {
+    background: #eee;
+  }
+  
+  .modal-actions button[type="submit"] {
+    background-color: #1f2937;
+    color: white;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
