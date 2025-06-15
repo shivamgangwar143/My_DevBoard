@@ -15,6 +15,8 @@ export class RoleGuard implements CanActivate {
       return true;
     } else {
       // redirect to access denied or home page
+      console.log('Access denied: insufficient permissions');
+      
       this.router.navigate(['/unauthorized']);
       return false;
     }

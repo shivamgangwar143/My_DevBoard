@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   userEmail: string | null = null;
   userName: string | null = null;
   userRole: string | null = null;
+  showBox = false;
   tasks: Task[] = []; // Initialize tasks array
 
   constructor(public auth: AuthService) {}
@@ -24,64 +25,75 @@ export class DashboardComponent implements OnInit {
     this.userName = this.auth.getUserEmail();
     this.userRole = this.auth.getUserRole();
 
-    const createBtn = document.querySelector(
-      ".create-btn"
-    ) as HTMLButtonElement;
-    const modal = document.getElementById("createTaskModal")!;
-    const closeBtn = document.getElementById("closeModal")!;
-    const cancelBtn = document.getElementById("cancelModal")!;
-    const form = document.getElementById("createTaskForm") as HTMLFormElement;
+    // const createBtn = document.querySelector(
+    //   ".create-btn"
+    // ) as HTMLButtonElement;
+    // const modal = document.getElementById("createTaskModal")!;
+    // const closeBtn = document.getElementById("closeModal")!;
+    // const cancelBtn = document.getElementById("cancelModal")!;
+    // const form = document.getElementById("createTaskForm") as HTMLFormElement;
 
-    // Show modal
-    createBtn?.addEventListener("click", () => {
-      modal.classList.remove("hidden");
-    });
+    // // Show modal
+    // createBtn?.addEventListener("click", () => {
+    //   modal.classList.remove("hidden");
+    // });
 
-    // Hide modal
-    const closeModal = () => modal.classList.add("hidden");
-    closeBtn?.addEventListener("click", closeModal);
-    cancelBtn?.addEventListener("click", closeModal);
+    // // Hide modal
+    // const closeModal = () => modal.classList.add("hidden");
+    // closeBtn?.addEventListener("click", closeModal);
+    // cancelBtn?.addEventListener("click", closeModal);
 
-    form?.addEventListener("submit", (e) => {
-      e.preventDefault();
+    // form?.addEventListener("submit", (e) => {
+    //   e.preventDefault();
 
-      const newTask = {
-        title: (document.getElementById("taskTitle") as HTMLInputElement).value,
-        description: (
-          document.getElementById("taskDescription") as HTMLTextAreaElement
-        ).value,
-        status: (
-          document.getElementById("taskStatus") as HTMLSelectElement
-        ).value.toLowerCase(),
-        priority: (
-          document.getElementById("taskPriority") as HTMLSelectElement
-        ).value.toLowerCase(),
-        assignee: (document.getElementById("taskAssignee") as HTMLInputElement)
-          .value,
-        dueDate: new Date(
-          (document.getElementById("taskDueDate") as HTMLInputElement).value
-        ).toDateString(),
-        author: "Admin User",
-      };
-      console.log("Task Created:", newTask);
-      closeModal();
-      form.reset();
-    });
+    //   const newTask = {
+    //     title: (document.getElementById("taskTitle") as HTMLInputElement).value,
+    //     description: (
+    //       document.getElementById("taskDescription") as HTMLTextAreaElement
+    //     ).value,
+    //     status: (
+    //       document.getElementById("taskStatus") as HTMLSelectElement
+    //     ).value.toLowerCase(),
+    //     priority: (
+    //       document.getElementById("taskPriority") as HTMLSelectElement
+    //     ).value.toLowerCase(),
+    //     assignee: (document.getElementById("taskAssignee") as HTMLInputElement)
+    //       .value,
+    //     dueDate: new Date(
+    //       (document.getElementById("taskDueDate") as HTMLInputElement).value
+    //     ).toDateString(),
+    //     author: "Admin User",
+    //   };
+    //   console.log("Task Created:", newTask);
+    //   closeModal();
+    //   form.reset();
+    // });
+  }
+  openModal() {
+    const modelDiv= document.getElementById("createTaskModal");
+    if (modelDiv) {
+      modelDiv.style.display = "block";
+    }
+  }
+  closeModal() {
+    const modelDiv = document.getElementById("createTaskModal");
+    if (modelDiv) {
+      modelDiv.style.display = "none";
+    }
+  }
+  threeDots(){
+    this.showBox = !this.showBox;
+    console.log("threeDots clicked", this.showBox);
   }
 
-  startResize(event: MouseEvent) {
-    // console.log(this.leftWidth);
-    // if (this.leftWidth < 26){
-    //   return
-    // }
 
+  startResize(event: MouseEvent) {
     this.resizing = true;
     event.preventDefault();
   }
 
   toggleCreateTask() {
     this.showCreateTask = !this.showCreateTask;
-    console.log("working");
   }
   logout() {
     this.auth.logout();

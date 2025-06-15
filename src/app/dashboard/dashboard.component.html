@@ -2,7 +2,7 @@
   <div class="left-pane box" [ngStyle]="{ width: leftWidth + '%' }">
     <div class="logo">
       <div class="logo-icon">
-        <div class="bi bi-check2-square fs-3"></div>
+        <div class="bi bi-check2-square fs-3" style="text-align: center;"></div>
       </div>
       <div style="padding-left: 5px">
         <h4>DevBoard</h4>
@@ -98,17 +98,15 @@
         </div>
         <button
           *ngIf="auth.getUserRole() === 'admin'"
-          (click)="toggleCreateTask()"
+          
           type="button"
-          class="create-btn btn-dark btn-sm"
-        >
-          + Create Task
+          class="create-btn btn-dark btn-sm" (click)="openModal()">+ Create Task
         </button>
 
         <!-- Create Task Modal -->
-        <div id="createTaskModal" class="modal hidden">
+        <div style="display: flex;" id="createTaskModal" class="modal hidden">
           <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
+            <span (click)="closeModal()" class="close-btn" id="closeModal">&times;</span>
             <h2>Create New Task</h2>
             <p>Fill in the details below to create a new task for your team.</p>
 
@@ -159,8 +157,8 @@
               <input type="date" id="taskDueDate" required />
 
               <div class="modal-actions">
-                <button type="button" id="cancelModal">Cancel</button>
-                <button type="submit">Create Task</button>
+                <button type="button" id="cancelModal" (click)="closeModal()">Cancel</button>
+                <button type="submit">Done</button>
               </div>
             </form>
           </div>
@@ -228,6 +226,11 @@
             </div>
 
             <div class="bi bi-three-dots fs-5"></div>
+            <!-- <ng-template #options>
+                <div>
+                    
+                </div>
+            </ng-template> -->
           </div>
           <div class="card-body" style="text-align: left">
             <p>

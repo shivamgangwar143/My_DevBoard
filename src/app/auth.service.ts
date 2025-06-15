@@ -14,6 +14,8 @@ export class AuthService {
       next: (res: any) => {
         localStorage.setItem("accessToken", res.token);
         localStorage.setItem("refreshToken", JSON.stringify(res.refreshToken));
+        console.log("Login successful:", res);
+        
         this.router.navigate(["/dashboard"]);
       },
       error: (err: any) => {

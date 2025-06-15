@@ -89,6 +89,7 @@ body {
 }
 
 .logo-icon {
+    width: 40px;
     background-color: blue;
     color: white;
     min-height: 2px;
