@@ -2,8 +2,8 @@
     <h2 class="text-center" style="margin-bottom: 30px; font-weight: bold;">Register</h2>
     <form (ngSubmit)="registerUser()" #registerForm="ngForm">
         <div class="mb-3">
-            <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" [(ngModel)]="registerData.firstName" required />
+            <label for="firstName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fulltName" name="firstName" placeholder="Enter full name" [(ngModel)]="registerData.fullName" required />
           </div>
         <!-- <div class="mb-3">
             <label for="lastName" class="form-label">Last Name</label>

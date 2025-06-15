@@ -2,7 +2,7 @@
   <div class="left-pane box" [ngStyle]="{ width: leftWidth + '%' }">
     <div class="logo">
       <div class="logo-icon">
-        <i class="bi bi-check2-square fs-3"></i>
+        <div class="bi bi-check2-square fs-3"></div>
       </div>
       <div style="padding-left: 5px">
         <h4>DevBoard</h4>
@@ -16,13 +16,8 @@
                 <li>Team Members</li>
                 <li>Settings</li>
             </ul> -->
-      <div class="col-4">
-        <div
-          style="max-width: 100%"
-          class="list-group"
-          id="list-tab"
-          role="tablist"
-        >
+      <div style="width: 100%" class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
           <a
             class="list-group-item list-group-item-action active"
             id="list-home-list"
@@ -62,7 +57,15 @@
         </div>
       </div>
     </div>
-    <div style="margin-top: 510px; border-top: 1px solid gray">
+    <div
+      style="
+        border-top: 1px solid gray;
+        position: fixed;
+        bottom: 2%;
+        width: 100%;
+      "
+      [ngStyle]="{ width: leftWidth - 3 + '%' }"
+    >
       <div class="user-info text-center">
         <p>Welcome, {{ userName }}</p>
         <p>
@@ -214,14 +217,17 @@
                 </div> -->
         <div class="card" style="text-align: left; border-left: 5px solid blue">
           <div class="card-header">
-            <h5>Redesign landing page</h5>
-            <div style="text-align: left; display: flex;">
-              <span class="badge bg-warning">Pending</span>
-              <span class="badge bg-danger">high</span>
-              <div style="margin-left: 1230px;">
-                <i class="bi bi-three-dots fs-5"></i>
+            <div style="display: flex; gap: 5px;">
+              <div>
+                <h5>Redesign landing page</h5>
+              </div>
+              <div style="display: flex; gap: 5px; margin-top:  3px;">
+                <span class="badge bg-warning">Pending</span>
+                <span class="badge bg-danger">high</span>
               </div>
             </div>
+
+            <div class="bi bi-three-dots fs-5"></div>
           </div>
           <div class="card-body" style="text-align: left">
             <p>

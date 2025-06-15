@@ -14,12 +14,13 @@ body {
     margin-top: 5px;
     display: flex;
     max-width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(99vh);
     overflow: hidden;
 }
 
 .left-pane {
     background-color: white;
+    min-width: 26px;
     height: 100%;
     overflow: auto;
     border: 1px solid #ddd;
@@ -27,10 +28,10 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
 
-    .btn{
-            width:100%;
-        }
-    
+    .btn {
+        width: 100%;
+    }
+
 }
 
 
@@ -45,7 +46,7 @@ body {
 }
 
 .resizer {
-    width: 12px;
+    width: 8px;
     background: #ccc;
     cursor: col-resize;
 }
@@ -65,7 +66,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 10px;
-    min-height: 180px;
+    min-height: 150px;
     min-width: 180px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -76,30 +77,41 @@ body {
     align-items: center;
     justify-content: center;
     flex: 1;
-    display: flex; }
-.logo{
+    display: flex;
+}
+
+.logo {
     display: flex;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow:0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.logo-icon{
+
+.logo-icon {
     background-color: blue;
     color: white;
     min-height: 2px;
     margin-right: 5px;
-    
+
+    border-bottom-left-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-left-radius: 5px;
+
 }
+
 .list-group-item {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
+
 /* .list-group{
     width: auto;
 } */
- .footer {
+.footer {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -107,10 +119,12 @@ body {
     padding: 10px;
     border-top: 1px solid #ddd;
 }
+
 .all-tasks {
     margin-top: 8px;
     background-color: white;
 }
+
 /* .card:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
@@ -127,105 +141,110 @@ body {
     display: flex;
     gap: 5px;
     text-align: left;
-    justify-content: start;
+    justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
+
 .task-cards:hover {
     background-color: #f5f7fa;
-    
+
 }
 
 .modal {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
-  }
-  
-  .hidden {
+}
+
+.hidden {
     display: none;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
     width: 400px;
     max-width: 90%;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     position: relative;
-  }
-  
-  .modal-content h2 {
+}
+
+.modal-content h2 {
     margin-bottom: 0.5rem;
-  }
-  
-  .modal-content p {
+}
+
+.modal-content p {
     margin-bottom: 1rem;
     font-size: 0.9rem;
     color: #555;
-  }
-  
-  .modal-content input,
-  .modal-content textarea,
-  .modal-content select {
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
     width: 100%;
     margin-bottom: 1rem;
     padding: 0.6rem;
     border: 1px solid #ccc;
     border-radius: 6px;
-  }
-  
-  .modal-content textarea {
+}
+
+.modal-content textarea {
     resize: vertical;
-  }
-  
-  .form-row {
+}
+
+.form-row {
     display: flex;
     gap: 10px;
-  }
-  
-  .form-row > div {
+}
+
+.form-row>div {
     flex: 1;
-  }
-  
-  .modal-actions {
+}
+
+.modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-  }
-  
-  .modal-actions button {
+}
+
+.modal-actions button {
     padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-  }
-  
-  #cancelModal {
+}
+
+#cancelModal {
     background: #eee;
-  }
-  
-  .modal-actions button[type="submit"] {
+}
+
+.modal-actions button[type="submit"] {
     background-color: #1f2937;
     color: white;
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     position: absolute;
     top: 10px;
     right: 15px;
     font-size: 1.5rem;
     cursor: pointer;
-  }
-  .badge{
+}
+
+.badge {
     max-height: 20px;
-  }
-  .signout{
+}
+
+.signout {
     width: 100%;
-  }
+}
