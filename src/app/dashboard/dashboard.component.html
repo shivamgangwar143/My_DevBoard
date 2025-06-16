@@ -10,12 +10,6 @@
       </div>
     </div>
     <div class="row" style="margin-top: 10px">
-      <!-- <ul>
-                <li>Dashboard</li>
-                <li>Tasks</li>
-                <li>Team Members</li>
-                <li>Settings</li>
-            </ul> -->
       <div style="width: 100%" class="col-4">
         <div class="list-group" id="list-tab" role="tablist">
           <a
@@ -107,7 +101,7 @@
         </button>
 
         <!-- Create Task Modal -->
-        <div id="createTaskModal" class="modal hidden">
+        <div *ngIf="showModal" class="modal faded">
           <div class="modal-content">
             <span (click)="closeModal()" class="close-btn" id="closeModal"
               >&times;</span
@@ -115,25 +109,27 @@
             <h2>Create New Task</h2>
             <p>Fill in the details below to create a new task for your team.</p>
 
-            <form id="createTaskForm">
+            <form (ngSubmit)="submitTask($event)" id="createTaskForm">
               <label>Title</label>
               <input
+                [(ngModel)]="tasks.title"
                 type="text"
-                id="taskTitle"
+                name="title"
                 placeholder="Enter task title"
                 required
               />
 
               <label>Description</label>
               <textarea
-                id="taskDescription"
+                [(ngModel)]="tasks.desc"
+                name="desc"
                 placeholder="Enter task description"
               ></textarea>
 
               <div class="form-row">
                 <div>
                   <label>Status</label>
-                  <select id="taskStatus">
+                  <select [(ngModel)]="tasks.status" name="status">
                     <option>Pending</option>
                     <option>In Progress</option>
                     <option>Completed</option>
@@ -141,7 +137,7 @@
                 </div>
                 <div>
                   <label>Priority</label>
-                  <select id="taskPriority">
+                  <select [(ngModel)]="tasks.priority" name="priority">
                     <option>Low</option>
                     <option>Medium</option>
                     <option>High</option>
@@ -152,20 +148,26 @@
 
               <label>Assignee</label>
               <input
+                [ngModel]="tasks.assignedTo"
+                name="taskAssignee"
                 type="text"
-                id="taskAssignee"
                 placeholder="Enter assignee name"
                 required
               />
 
               <label>Due Date</label>
-              <input type="date" id="taskDueDate" required />
+              <input
+                [(ngModel)]="tasks.dueDate"
+                name="dueDate"
+                type="date"
+                required
+              />
 
               <div class="modal-actions">
                 <button type="button" id="cancelModal" (click)="closeModal()">
                   Cancel
                 </button>
-                <button type="submit">Done</button>
+                <button type="submit">Add Task</button>
               </div>
             </form>
           </div>
@@ -207,20 +209,39 @@
         <p>All tasks across your teams</p>
       </div>
       <div class="card tasks-cards">
-        <!-- <div class="card" >
-                    <div class="card-header" *ngFor="let task of tasks">
-                        <h5>{{ task.title }}</h5>
-                        <span class="badge bg-secondary">{{ task.status }}</span>
-                        <span class="badge bg-secondary">{{ task.priority }}</span>
-                    </div>
-                    <div class="card-body" *ngFor="let task of tasks">
-                        <p>{{ task.desc }}</p>
-                        <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
-                        <p><strong>Due Date:</strong> {{ task.dueDate | date:'shortDate' }}</p>
-                    </div>
-
-                </div> -->
         <div
+          class="card inner-card"
+          *ngFor="let task of tasks"
+          style="text-align: left; border-left: 5px solid blue"
+        >
+          <div class="card-header">
+            <div style="display: flex; gap: 5px">
+              <div>
+                <h5>{{ task.title }}</h5>
+              </div>
+              <div style="display: flex; gap: 5px; margin-top: 3px">
+                <span class="badge bg-warning">{{ task.status }}</span>
+                <span class="badge bg-danger">{{ task.priority }}</span>
+              </div>
+            </div>
+            <div class="bi bi-three-dots fs-5" (click)="threeDots()"></div>
+            <ng-template #options>
+              <div *ngIf="showBox">
+                <!-- Actions like Edit/Delete -->
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="card-body">
+            <p>{{ task.desc }}</p>
+            <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
+            <p>
+              <strong>Due Date:</strong> {{ task.dueDate | date : "shortDate" }}
+            </p>
+          </div>
+        </div>
+
+        <!-- <div
           class="card inner-card"
           style="text-align: left; border-left: 5px solid blue"
         >
@@ -233,15 +254,15 @@
                 <span class="badge bg-warning">Pending</span>
                 <span class="badge bg-danger">high</span>
               </div>
-            </div>
+            </div> -->
 
-            <div class="bi bi-three-dots fs-5"></div>
-            <!-- <ng-template #options>
+        <!-- <div class="bi bi-three-dots fs-5"></div> -->
+        <!-- <ng-template #options>
                 <div>
                     
                 </div>
             </ng-template> -->
-          </div>
+        <!-- </div>
           <div class="card-body" style="text-align: left">
             <p>
               Update the main landing page with the new tranding and improved
@@ -268,13 +289,13 @@
               </div>
             </div>
 
-            <div class="bi bi-three-dots fs-5"></div>
-            <!-- <ng-template #options>
+            <div class="bi bi-three-dots fs-5"></div> -->
+        <!-- <ng-template #options>
                 <div>
                     
                 </div>
             </ng-template> -->
-          </div>
+        <!-- </div>
           <div class="card-body" style="text-align: left">
             <p>
               Update the main landing page with the new tranding and improved
@@ -286,39 +307,10 @@
             </div>
           </div>
         </div>
-        <div
-          class="card inner-card"
-          style="text-align: left; border-left: 5px solid blue"
-        >
-          <div class="card-header">
-            <div style="display: flex; gap: 5px">
-              <div>
-                <h5>Redesign landing page</h5>
-              </div>
-              <div style="display: flex; gap: 5px; margin-top: 3px">
-                <span class="badge bg-warning">Pending</span>
-                <span class="badge bg-danger">high</span>
-              </div>
-            </div>
-
-            <div class="bi bi-three-dots fs-5"></div>
-            <!-- <ng-template #options>
-                <div>
-                    
-                </div>
-            </ng-template> -->
-          </div>
-          <div class="card-body" style="text-align: left">
-            <p>
-              Update the main landing page with the new tranding and improved
-              UX.
-            </p>
-            <div style="display: flex; justify-content: start; gap: 5px">
-              <p><strong>Assigned to:</strong> Shivam</p>
-              <p><strong>Due Date:</strong>Jun15</p>
-            </div>
-          </div>
-        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
       </div>
     </div>
   </div>

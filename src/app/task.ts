@@ -1,15 +1,14 @@
 export class Task{
-    sno: number = 0;
     title: string = "";
-    status: string = ""; // Added status field
+    status: string = "Pending"; // Added status field
     desc: string = "";
-    priority: string = "Pending"; // Added priority field
+    priority: string = "Medium"; // Added priority field
     dueDate: string = ""; // Added date field
     assignedTo: string = ""; // Added assignedTo field
     active: boolean = false;
 
-    constructor(sno: number, title: string, desc: string, active: boolean, status: string = "Pending", priority: string = "Medium", dueDate: string = "", assignedTo: string = "") {
-        this.sno = sno;
+    constructor(title: string, desc: string, active: boolean, status: string = "Pending", priority: string = "Medium", dueDate: string = "", assignedTo: string = "") {
+    
         this.title = title;
         this.desc = desc;
         this.active = active;

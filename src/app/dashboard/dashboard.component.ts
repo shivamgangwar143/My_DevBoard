@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { AuthService } from "../auth.service";
-import { Task } from "../task";
+import { Task } from "../task"; // Import Task model
+
 
 @Component({
   selector: "app-dashboard",
@@ -17,13 +18,18 @@ export class DashboardComponent implements OnInit {
   userName: string | null = null;
   userRole: string | null = null;
   showBox = false;
-  tasks: Task[] = []; // Initialize tasks array
+  showModal = false; // For modal visibility
+
+  tasks: Task[] | any; // Array to hold tasks
+  newTask: Task = new Task("", "", true, "", "", "", ""); // New task object
 
   constructor(public auth: AuthService) {}
 
   ngOnInit(): void {
     this.userName = this.auth.getUserEmail();
     this.userRole = this.auth.getUserRole();
+    const savedTasks = localStorage.getItem("tasks");
+    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
 
     // const createBtn = document.querySelector(
     //   ".create-btn"
@@ -46,46 +52,110 @@ export class DashboardComponent implements OnInit {
     // form?.addEventListener("submit", (e) => {
     //   e.preventDefault();
 
-    //   const newTask = {
-    //     title: (document.getElementById("taskTitle") as HTMLInputElement).value,
-    //     description: (
-    //       document.getElementById("taskDescription") as HTMLTextAreaElement
-    //     ).value,
-    //     status: (
-    //       document.getElementById("taskStatus") as HTMLSelectElement
-    //     ).value.toLowerCase(),
-    //     priority: (
-    //       document.getElementById("taskPriority") as HTMLSelectElement
-    //     ).value.toLowerCase(),
-    //     assignee: (document.getElementById("taskAssignee") as HTMLInputElement)
-    //       .value,
-    //     dueDate: new Date(
-    //       (document.getElementById("taskDueDate") as HTMLInputElement).value
-    //     ).toDateString(),
-    //     author: "Admin User",
-    //   };
-    //   console.log("Task Created:", newTask);
+    // const tasks = {
+    //   title: (document.getElementById("taskTitle") as HTMLInputElement).value,
+    //   description: (
+    //     document.getElementById("taskDescription") as HTMLTextAreaElement
+    //   ).value,
+    //   status: (
+    //     document.getElementById("taskStatus") as HTMLSelectElement
+    //   ).value.toLowerCase(),
+    //   priority: (
+    //     document.getElementById("taskPriority") as HTMLSelectElement
+    //   ).value.toLowerCase(),
+    //   assignee: (document.getElementById("taskAssignee") as HTMLInputElement)
+    //     .value,
+    //   dueDate: new Date(
+    //     (document.getElementById("taskDueDate") as HTMLInputElement).value
+    //   ).toDateString(),
+    //   assignedTo: (document.getElementById("taskAssignee") as HTMLInputElement).value,
+    // };
+    //   console.log("Task Created:", tasks);
     //   closeModal();
     //   form.reset();
     // });
   }
   openModal() {
-    const modelDiv= document.getElementById("createTaskModal");
-    if (modelDiv) {
-      modelDiv.style.display = "block";
-    }
+    // const modelDiv= document.getElementById("createTaskModal");
+    // if (modelDiv) {
+    //   modelDiv.style.display = "block";
+    // }
+    this.showModal = true; // Show the modal
   }
   closeModal() {
-    const modelDiv = document.getElementById("createTaskModal");
-    if (modelDiv) {
-      modelDiv.style.display = "none";
+    // const modelDiv = document.getElementById("createTaskModal");
+    // if (modelDiv) {
+    //   modelDiv.style.display = "none";
+    // }
+    this.showModal = false; // Hide the modal
+    //this.selectedTodo = null;
+    // Reset selectedTodo
+    // this.resetForm();
+  }
+  submitTask(event: Event) {
+    const newTask = new Task(
+      this.newTask.title,
+      this.newTask.desc,
+      this.newTask.active,
+      this.newTask.status,
+      this.newTask.priority,
+      this.newTask.dueDate,
+      this.newTask.assignedTo
+      
+    );
+    this.tasks.push(newTask); // ✅ this will now work
+    
+  
+    // Save tasks to localStorage
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    this.closeModal();
+    this.newTask = new Task("", "", true, "", ""); // Reset newTask
+    this.showCreateTask = false;
+  }
+
+  editTask(task: Task) {
+    console.log("Edit task clicked", task);
+    this.selectedTodo = task;
+    this.showCreateTask = true;
+    this.openModal();
+  }
+  deleteTask(task: Task) {
+    console.log("Delete task clicked", task);
+    const index = this.tasks.indexOf(task);
+    if (index > -1) {
+      this.tasks.splice(index, 1);
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      console.log("Task deleted");
+    } else {
+      console.error("Task not found");
     }
   }
-  threeDots(){
+  toggleTask(task: Task) {
+    console.log("Toggle task clicked", task);
+    const index = this.tasks.indexOf(task);
+    if (index > -1) {
+      this.tasks[index].active = !this.tasks[index].active;
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      console.log("Task toggled");
+    } else {
+      console.error("Task not found");
+    }
+  }
+  addTask(task: Task) {
+    console.log("Add task clicked", task);
+    if (!this.tasks) {
+      this.tasks = [];
+    }
+    this.tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    console.log("Task added");
+  }
+  // Function to toggle the visibility of the three dots menu
+  // This function is called when the three dots icon is clicked
+  threeDots() {
     this.showBox = !this.showBox;
     console.log("threeDots clicked", this.showBox);
   }
-
 
   startResize(event: MouseEvent) {
     this.resizing = true;
@@ -104,12 +174,12 @@ export class DashboardComponent implements OnInit {
   onMouseMove(event: MouseEvent) {
     if (this.resizing) {
       const currentX = event.clientX;
-      let pixels = (this.leftWidth / 100) *  window.innerWidth;
+      let pixels = (this.leftWidth / 100) * window.innerWidth;
 
       const direction = currentX > pixels ? "right" : "left";
       //dragArea.textContent = `Dragging ${direction}`;
       console.log(this.leftWidth, direction, currentX);
-      if (this.leftWidth < 26 && direction=="left") return;
+      if (this.leftWidth < 26 && direction == "left") return;
       const totalWidth = window.innerWidth;
       this.leftWidth = (event.clientX / totalWidth) * 100;
       this.rightWidth = 100 - this.leftWidth;
