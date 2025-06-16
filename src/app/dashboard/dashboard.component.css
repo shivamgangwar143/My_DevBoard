@@ -160,16 +160,19 @@ body {
 }
 
 .modal {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
+   
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
+    
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 1000;
+    
 }
 
 .hidden {
@@ -177,6 +180,7 @@ body {
 }
 
 .modal-content {
+    margin: auto;
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
@@ -255,4 +259,7 @@ body {
 
 .signout {
     width: 100%;
+}
+.bi-three-dots{
+    cursor: pointer;
 }
