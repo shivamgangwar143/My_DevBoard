@@ -17,6 +17,12 @@ body {
     height: calc(99vh);
     overflow: hidden;
 }
+.create-btn {
+
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
 
 .left-pane {
     background-color: white;
@@ -67,6 +73,7 @@ body {
     border-radius: 10px;
     padding: 10px;
     min-height: 150px;
+    /* max-height: 180px; */
     min-width: 180px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;

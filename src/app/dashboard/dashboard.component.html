@@ -98,7 +98,7 @@
         </div>
         <button
           *ngIf="auth.getUserRole() === 'admin'"
-          
+          (click)="toggleCreateTask()"
           type="button"
           class="create-btn btn-dark btn-sm" (click)="openModal()">+ Create Task
         </button>
@@ -213,7 +213,67 @@
                     </div>
 
                 </div> -->
-        <div class="card" style="text-align: left; border-left: 5px solid blue">
+        <div class="card inner-card" style="text-align: left; border-left: 5px solid blue">
+          <div class="card-header">
+            <div style="display: flex; gap: 5px;">
+              <div>
+                <h5>Redesign landing page</h5>
+              </div>
+              <div style="display: flex; gap: 5px; margin-top:  3px;">
+                <span class="badge bg-warning">Pending</span>
+                <span class="badge bg-danger">high</span>
+              </div>
+            </div>
+
+            <div class="bi bi-three-dots fs-5"></div>
+            <!-- <ng-template #options>
+                <div>
+                    
+                </div>
+            </ng-template> -->
+          </div>
+          <div class="card-body" style="text-align: left">
+            <p>
+              Update the main landing page with the new tranding and improved
+              UX.
+            </p>
+            <div style="display: flex; justify-content: start; gap: 5px">
+              <p><strong>Assigned to:</strong> Shivam</p>
+              <p><strong>Due Date:</strong>Jun15</p>
+            </div>
+          </div>
+        </div>
+        <div class="card inner-card" style="text-align: left; border-left: 5px solid blue">
+          <div class="card-header">
+            <div style="display: flex; gap: 5px;">
+              <div>
+                <h5>Redesign landing page</h5>
+              </div>
+              <div style="display: flex; gap: 5px; margin-top:  3px;">
+                <span class="badge bg-warning">Pending</span>
+                <span class="badge bg-danger">high</span>
+              </div>
+            </div>
+
+            <div class="bi bi-three-dots fs-5"></div>
+            <!-- <ng-template #options>
+                <div>
+                    
+                </div>
+            </ng-template> -->
+          </div>
+          <div class="card-body" style="text-align: left">
+            <p>
+              Update the main landing page with the new tranding and improved
+              UX.
+            </p>
+            <div style="display: flex; justify-content: start; gap: 5px">
+              <p><strong>Assigned to:</strong> Shivam</p>
+              <p><strong>Due Date:</strong>Jun15</p>
+            </div>
+          </div>
+        </div>
+        <div class="card inner-card" style="text-align: left; border-left: 5px solid blue">
           <div class="card-header">
             <div style="display: flex; gap: 5px;">
               <div>
