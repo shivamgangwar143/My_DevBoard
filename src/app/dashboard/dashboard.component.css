@@ -263,3 +263,14 @@ body {
 .bi-three-dots{
     cursor: pointer;
 }
+.pop-up{
+    position: fixed;
+        top: 42%;
+        left: 88%;
+        transform: translate(-50%, -30%);
+        background: white;
+        border: 1px solid #ccc;
+        padding: 20px;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

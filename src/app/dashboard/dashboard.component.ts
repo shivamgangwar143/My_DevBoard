@@ -30,70 +30,17 @@ export class DashboardComponent implements OnInit {
     this.userRole = this.auth.getUserRole();
     const savedTasks = localStorage.getItem("tasks");
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
-
-    // const createBtn = document.querySelector(
-    //   ".create-btn"
-    // ) as HTMLButtonElement;
-    // const modal = document.getElementById("createTaskModal")!;
-    // const closeBtn = document.getElementById("closeModal")!;
-    // const cancelBtn = document.getElementById("cancelModal")!;
-    // const form = document.getElementById("createTaskForm") as HTMLFormElement;
-
-    // // Show modal
-    // createBtn?.addEventListener("click", () => {
-    //   modal.classList.remove("hidden");
-    // });
-
-    // // Hide modal
-    // const closeModal = () => modal.classList.add("hidden");
-    // closeBtn?.addEventListener("click", closeModal);
-    // cancelBtn?.addEventListener("click", closeModal);
-
-    // form?.addEventListener("submit", (e) => {
-    //   e.preventDefault();
-
-    // const tasks = {
-    //   title: (document.getElementById("taskTitle") as HTMLInputElement).value,
-    //   description: (
-    //     document.getElementById("taskDescription") as HTMLTextAreaElement
-    //   ).value,
-    //   status: (
-    //     document.getElementById("taskStatus") as HTMLSelectElement
-    //   ).value.toLowerCase(),
-    //   priority: (
-    //     document.getElementById("taskPriority") as HTMLSelectElement
-    //   ).value.toLowerCase(),
-    //   assignee: (document.getElementById("taskAssignee") as HTMLInputElement)
-    //     .value,
-    //   dueDate: new Date(
-    //     (document.getElementById("taskDueDate") as HTMLInputElement).value
-    //   ).toDateString(),
-    //   assignedTo: (document.getElementById("taskAssignee") as HTMLInputElement).value,
-    // };
-    //   console.log("Task Created:", tasks);
-    //   closeModal();
-    //   form.reset();
-    // });
+console.log(this.tasks);
   }
   openModal() {
-    // const modelDiv= document.getElementById("createTaskModal");
-    // if (modelDiv) {
-    //   modelDiv.style.display = "block";
-    // }
     this.showModal = true; // Show the modal
   }
+
   closeModal() {
-    // const modelDiv = document.getElementById("createTaskModal");
-    // if (modelDiv) {
-    //   modelDiv.style.display = "none";
-    // }
     this.showModal = false; // Hide the modal
-    //this.selectedTodo = null;
-    // Reset selectedTodo
-    // this.resetForm();
   }
   submitTask(event: Event) {
-    const newTask = new Task(
+    const taskk = new Task(
       this.newTask.title,
       this.newTask.desc,
       this.newTask.active,
@@ -103,7 +50,9 @@ export class DashboardComponent implements OnInit {
       this.newTask.assignedTo
       
     );
-    this.tasks.push(newTask); // ✅ this will now work
+    console.log(event, "enee")
+    console.log(this.newTask)
+    this.tasks.push(this.newTask,"Task card created successfully"); 
     
   
     // Save tasks to localStorage
