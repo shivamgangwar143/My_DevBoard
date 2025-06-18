@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   showModal = false; // For modal visibility
 
   tasks: Task[] | any; // Array to hold tasks
-  newTask: Task = new Task("", "", true, "", "", "", ""); // New task object
+  newTask: Task = new Task("", "", true, "Pending", "Medium", "", ""); // New task object
 
   constructor(public auth: AuthService) {}
 
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
     this.userRole = this.auth.getUserRole();
     const savedTasks = localStorage.getItem("tasks");
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
-console.log(this.tasks);
+    console.log(this.tasks);
   }
   openModal() {
     this.showModal = true; // Show the modal
@@ -40,21 +40,17 @@ console.log(this.tasks);
     this.showModal = false; // Hide the modal
   }
   submitTask(event: Event) {
-    const taskk = new Task(
-      this.newTask.title,
-      this.newTask.desc,
-      this.newTask.active,
-      this.newTask.status,
-      this.newTask.priority,
-      this.newTask.dueDate,
-      this.newTask.assignedTo
-      
-    );
-    console.log(event, "enee")
-    console.log(this.newTask)
-    this.tasks.push(this.newTask,"Task card created successfully"); 
-    
-  
+    // const task = new Task(
+    //   this.newTask.title,
+    //   this.newTask.desc,
+    //   this.newTask.active,
+    //   this.newTask.status,
+    //   this.newTask.priority,
+    //   this.newTask.dueDate,
+    //   this.newTask.assignee
+    // );
+    this.tasks.push(this.newTask, "Task card created successfully");
+
     // Save tasks to localStorage
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
     this.closeModal();
