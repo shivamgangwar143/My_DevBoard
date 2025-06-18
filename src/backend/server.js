@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(cors());
@@ -8,31 +9,89 @@ app.use(express.json());
 
 const SECRET = "supersecretkey";
 
-const users = [
-  { email: "admin@example.com", password: "admin123", role: "admin" },
-  { email: "user@example.com", password: "user123", role: "member" },
-];
-
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password, "email")
-  const user = users.find((u) => u.email === email && u.password === password);
-  if (!user) return res.status(401).json({ message: "Invalid credentials" });
-
-  const token = jwt.sign({ email: user.email, role: user.role }, SECRET, {
-    expiresIn: "15m",
-  });
-  const refreshToken = jwt.sign({ email: user.email }, SECRET, {
-    expiresIn: "1d",
+// ✅ MongoDB connection
+mongoose
+  .connect("mongodb://localhost:27017/myappdb", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
   });
 
-  res.json({
-    token,
-    refreshToken,
-    user: { email: user.email, role: user.role },
-  });
+// ✅ User Schema
+const userSchema = new mongoose.Schema({
+  fullName: String,
+  email: String,
+  password: String,
+  role: String,
 });
 
+const User = mongoose.model("User", userSchema);
+
+// ✅ Registration route
+app.post("/register", async (req, res) => {
+  const { fullName, email, password, role } = req.body;
+  try {
+    const existing = await User.findOne({ email });
+    if (existing)
+      return res.status(400).json({ message: "User already exists" });
+
+    const user = new User({ email, password, role });
+    await user.save();
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Registration error" });
+  }
+});
+
+// ✅ Login route
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email, password });
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign({ email: user.email, role: user.role }, SECRET, {
+      expiresIn: "15m",
+    });
+    const refreshToken = jwt.sign({ email: user.email }, SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.json({
+      token,
+      refreshToken,
+      user: { email: user.email, role: user.role },
+    });
+  } catch (err) {
+    console.error("Login Error:", error);
+    res.status(500).json({ message: "Login error" });
+  }
+});
 app.listen(3000, () =>
   console.log("✅ Backend running at http://localhost:3000")
 );
+
+//app.post("/login", (req, res) => {
+//   const { email, password } = req.body;
+//   console.log(email, password, "email")
+//   const user = users.find((u) => u.email === email && u.password === password);
+//   if (!user) return res.status(401).json({ message: "Invalid credentials" });
+
+//   const token = jwt.sign({ email: user.email, role: user.role }, SECRET, {
+//     expiresIn: "15m",
+//   });
+//   const refreshToken = jwt.sign({ email: user.email }, SECRET, {
+//     expiresIn: "1d",
+//   });
+
+//   res.json({
+//     token,
+//     refreshToken,
+//     user: { email: user.email, role: user.role },
+//   });
+// });

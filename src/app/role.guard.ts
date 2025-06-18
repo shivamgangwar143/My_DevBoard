@@ -11,10 +11,12 @@ export class RoleGuard implements CanActivate {
   canActivate(): boolean {
     const role = this.authService.getUserRole();
 
-    if (role === 'admin') {
+    if (role === 'admin'|| role === 'member') {
       return true;
     } else {
       // redirect to access denied or home page
+      console.log('Access denied: insufficient permissions');
+      
       this.router.navigate(['/unauthorized']);
       return false;
     }

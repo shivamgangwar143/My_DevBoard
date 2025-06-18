@@ -1,0 +1,276 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    margin-top: 5px;
+    display: flex;
+    max-width: 100%;
+    height: calc(99vh);
+    overflow: hidden;
+}
+.create-btn {
+
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+}
+
+.left-pane {
+    background-color: white;
+    min-width: 26px;
+    height: 100%;
+    overflow: auto;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+
+    .btn {
+        width: 100%;
+    }
+
+}
+
+
+.right-pane {
+    height: 100%;
+    overflow: auto;
+    background-color: #f5f7fa;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.resizer {
+    width: 8px;
+    background: #ccc;
+    cursor: col-resize;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    height: 100%;
+}
+
+.card {
+    text-align: center;
+    flex: 1;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 150px;
+    /* max-height: 180px; */
+    min-width: 180px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-icon {
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    display: flex;
+}
+
+.logo {
+    display: flex;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-icon {
+    width: 40px;
+    background-color: blue;
+    color: white;
+    min-height: 2px;
+    margin-right: 5px;
+
+    border-bottom-left-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-left-radius: 5px;
+
+}
+
+.list-group-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* .list-group{
+    width: auto;
+} */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.all-tasks {
+    margin-top: 8px;
+    background-color: white;
+}
+
+/* .card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.card:hover .dash-icon {
+    transform: scale(1.05);
+}
+.card:hover .logo-icon {
+    background-color: darkblue;
+}
+.card:hover .logo-icon i {
+    color: white;
+} */
+.card-header {
+    display: flex;
+    gap: 5px;
+    text-align: left;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.task-cards:hover {
+    background-color: #f5f7fa;
+
+}
+
+.modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+   
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-content {
+    margin: auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-bottom: 0.5rem;
+}
+
+.modal-content p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.modal-content textarea {
+    resize: vertical;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.form-row>div {
+    flex: 1;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.modal-actions button {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#cancelModal {
+    background: #eee;
+}
+
+.modal-actions button[type="submit"] {
+    background-color: #1f2937;
+    color: white;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.badge {
+    max-height: 20px;
+}
+
+.signout {
+    width: 100%;
+}
+.bi-three-dots{
+    cursor: pointer;
+}
+.pop-up{
+    position: fixed;
+        top: 42%;
+        left: 88%;
+        transform: translate(-50%, -30%);
+        background: white;
+        border: 1px solid #ccc;
+        padding: 20px;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

@@ -1,1 +1,245 @@
-<p>dashboard works!</p>
+<div class="container">
+  <div class="left-pane box" [ngStyle]="{ width: leftWidth + '%' }">
+    <div class="logo">
+      <div class="logo-icon">
+        <div class="bi bi-check2-square fs-3" style="text-align: center"></div>
+      </div>
+      <div style="padding-left: 5px">
+        <h4>DevBoard</h4>
+        <p>Project Management</p>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+      <div style="width: 100%" class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+          <a
+            class="list-group-item list-group-item-action active"
+            id="list-home-list"
+            data-bs-toggle="list"
+            href="#list-home"
+            role="tab"
+            aria-controls="list-home"
+            >Dashboard</a
+          >
+          <a
+            class="list-group-item list-group-item-action"
+            id="list-profile-list"
+            data-bs-toggle="list"
+            href="#list-profile"
+            role="tab"
+            aria-controls="list-profile"
+            >Tasks</a
+          >
+          <a
+            class="list-group-item list-group-item-action"
+            id="list-messages-list"
+            data-bs-toggle="list"
+            href="#list-messages"
+            role="tab"
+            aria-controls="list-messages"
+            >Team Members</a
+          >
+          <a
+            class="list-group-item list-group-item-action"
+            id="list-settings-list"
+            data-bs-toggle="list"
+            href="#list-settings"
+            role="tab"
+            aria-controls="list-settings"
+            >Settings</a
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      style="
+        border-top: 1px solid gray;
+        position: fixed;
+        bottom: 2%;
+        width: 100%;
+      "
+      [ngStyle]="{ width: leftWidth - 3 + '%' }"
+    >
+      <div class="user-info text-center">
+        <p>Welcome, {{ userName }}</p>
+        <p>
+          <span style="width: 100px" class="badge bg-dark">{{ userRole }}</span>
+        </p>
+      </div>
+      <div class="signout text-center">
+        <button
+          (click)="logout()"
+          type="button"
+          class="btn btn-outline-secondary"
+        >
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="resizer" (mousedown)="startResize($event)"></div>
+
+  <div class="right-pane box" [ngStyle]="{ width: 100 - leftWidth + '%' }">
+    <div>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <div style="display: flex; justify-content: start; gap: 10px">
+            <h4 class="dash-title fw-bold">Dashboard</h4>
+            <span class="badge bg-primary">{{ userRole }}</span>
+          </div>
+
+          <p class="mb-0">Manage tasks and monitor team progress</p>
+        </div>
+        <button
+          *ngIf="auth.getUserRole() === 'admin'"
+          (click)="toggleCreateTask()"
+          type="button"
+          class="create-btn btn-dark btn-sm"
+          (click)="openModal()"
+        >
+          + Create Task
+        </button>
+
+        <!-- Create Task Modal -->
+        <div *ngIf="showModal" class="modal faded">
+          <div class="modal-content">
+            <span (click)="closeModal()" class="close-btn" id="closeModal"
+              >&times;</span
+            >
+            <h2>Create New Task</h2>
+            <p>Fill in the details below to create a new task for your team.</p>
+
+            <form (ngSubmit)="submitTask($event)" id="createTaskForm">
+              <label>Title</label>
+              <input
+                [(ngModel)]="newTask.title"
+                type="text"
+                name="title"
+                placeholder="Enter task title"
+                required
+              />
+
+              <label>Description</label>
+              <textarea
+                [(ngModel)]="newTask.desc"
+                name="desc"
+                placeholder="Enter task description"
+              ></textarea>
+
+              <div class="form-row">
+                <div>
+                  <label>Status</label>
+                  <select [(ngModel)]="newTask.status" name="status">
+                    <option>Pending</option>
+                    <option>In Progress</option>
+                    <option>Completed</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Priority</label>
+                  <select [(ngModel)]="newTask.priority" name="priority">
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                    <option>Urgent</option>
+                  </select>
+                </div>
+              </div>
+
+              <label>Assignee</label>
+              <input
+                [ngModel]="newTask.assignedTo"
+                name="taskAssignee"
+                type="text"
+                placeholder="Enter assignee name"
+                required
+              />
+
+              <label>Due Date</label>
+              <input
+                [(ngModel)]="newTask.dueDate"
+                name="dueDate"
+                type="date"
+                required
+              />
+
+              <div class="modal-actions">
+                <button type="button" id="cancelModal" (click)="closeModal()">
+                  Cancel
+                </button>
+                <button type="submit">Add Task</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-container">
+        <div class="card">
+          <h5>Total Tasks</h5>
+          <div class="dash-icon">
+            <i style="color: blue" class="bi bi-graph-up-arrow fs-5"></i>
+            <h3>4</h3>
+          </div>
+        </div>
+        <div class="card">
+          <h5>Comleted</h5>
+          <div class="dash-icon">
+            <i style="color: green" class="bi bi-check2-circle fs-5"></i>
+            <h3>4</h3>
+          </div>
+        </div>
+        <div class="card">
+          <h5>In Progress</h5>
+          <div class="dash-icon">
+            <i style="color: yellow" class="bi bi-clock fs-5"></i>
+            <h3>4</h3>
+          </div>
+        </div>
+        <div class="card">
+          <h5>Pending</h5>
+          <div class="dash-icon">
+            <i style="color: red" class="bi bi-exclamation-circle fs-5"></i>
+            <h3>4</h3>
+          </div>
+        </div>
+      </div>
+      <div class="all-tasks">
+        <h5 class="tasks-heading fw-bold">Recent Tasks</h5>
+        <p>All tasks across your teams</p>
+      </div>
+      <div class="card tasks-cards">
+        <div
+          class="card inner-card"
+          *ngFor="let task of tasks"
+          style="text-align: left; border-left: 5px solid blue"
+        >
+          <div class="card-header">
+            <div style="display: flex; gap: 5px">
+              <div>
+                <h5>{{ task.title }}</h5>
+              </div>
+              <div style="display: flex; gap: 5px; margin-top: 3px">
+                <span class="badge bg-warning">{{ task.status }}</span>
+                <span class="badge bg-danger">{{ task.priority }}</span>
+              </div>
+            </div>
+            <div class="bi bi-three-dots fs-5" (click)="showBox = true "></div>
+              <div *ngIf="showBox" class="pop-up">
+                <h5>Delete</h5>
+                <button (click)="showBox = false">Close</button>
+              </div>
+          </div>
+
+          <div class="card-body">
+            <p>{{ task.desc }}</p>
+            <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
+            <p>
+              <strong>Due Date:</strong> {{ task.dueDate | date : "shortDate" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
