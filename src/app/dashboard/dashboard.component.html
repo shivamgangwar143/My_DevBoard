@@ -146,10 +146,10 @@
                 </div>
               </div>
 
-              <label>Assignee</label>
+              <label>Assigned By</label>
               <input
-                [ngModel]="newTask.assignedTo"
-                name="taskAssignee"
+                [(ngModel)]="newTask.assignee"
+                name="assignee"
                 type="text"
                 placeholder="Enter assignee name"
                 required
@@ -233,7 +233,7 @@
 
           <div class="card-body">
             <p>{{ task.desc }}</p>
-            <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
+            <p><strong>Assigned By:</strong> {{ task.assignee }}</p>
             <p>
               <strong>Due Date:</strong> {{ task.dueDate | date : "shortDate" }}
             </p>
