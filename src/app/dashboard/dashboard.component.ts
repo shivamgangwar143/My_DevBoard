@@ -19,9 +19,10 @@ export class DashboardComponent implements OnInit {
   userRole: string | null = null;
   showBox = false;
   showModal = false; // For modal visibility
+  activeMenuId: number | null = null;
 
   tasks: Task[] | any; // Array to hold tasks
-  newTask: Task = new Task("", "", true, "Pending", "Medium", "", ""); // New task object
+  newTask: Task = new Task(0, "", "", true, "Pending", "Medium", "", ""); // New task object
 
   constructor(public auth: AuthService) {}
 
@@ -54,7 +55,7 @@ export class DashboardComponent implements OnInit {
     // Save tasks to localStorage
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
     this.closeModal();
-    this.newTask = new Task("", "", true, "", ""); // Reset newTask
+    this.newTask = new Task(0, "", "", true, "", ""); // Reset newTask
     this.showCreateTask = false;
   }
 
@@ -110,6 +111,12 @@ export class DashboardComponent implements OnInit {
   toggleCreateTask() {
     this.showCreateTask = !this.showCreateTask;
   }
+  toggleMenu(event: MouseEvent, index: number) {
+    event.stopPropagation(); // Prevent the click from propagating to the document
+
+    this.activeMenuId = this.activeMenuId === index ? null : index;
+    console.log("Toggle menu clicked for task ID:", index);
+  }
   logout() {
     this.auth.logout();
     console.log("Logged out");
@@ -128,6 +135,14 @@ export class DashboardComponent implements OnInit {
       const totalWidth = window.innerWidth;
       this.leftWidth = (event.clientX / totalWidth) * 100;
       this.rightWidth = 100 - this.leftWidth;
+    }
+  }
+  @HostListener("document:click", ["$event"])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest(".popup-menu") && !target.closest(".menu-trigger")) {
+      this.activeMenuId = null;
     }
   }
 
