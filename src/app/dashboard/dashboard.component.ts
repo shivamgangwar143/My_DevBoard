@@ -14,15 +14,21 @@ export class DashboardComponent implements OnInit {
   resizing = false;
   selectedTodo: any;
   showCreateTask: boolean = false;
+  showAssignee: boolean = false; // For showing assignee options
   userEmail: string | null = null;
   userName: string | null = null;
   userRole: string | null = null;
   showBox = false;
   showModal = false; // For modal visibility
+  isEditMode: boolean = false;
+  editingTaskIndex: number = -1;
   activeMenuId: number | null = null;
-
   tasks: Task[] | any; // Array to hold tasks
-  newTask: Task = new Task(0, "", "", true, "Pending", "Medium", "", ""); // New task object
+  newTask: Task = new Task(0, "", "", true, "Pending", "Medium", "", "", ""); // New task object
+  totalTasks: number = 0;
+  completedTasks: number = 0;
+  inProgressTasks: number = 0;
+  pendingTasks: number = 0;
 
   constructor(public auth: AuthService) {}
 
@@ -32,6 +38,20 @@ export class DashboardComponent implements OnInit {
     const savedTasks = localStorage.getItem("tasks");
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
     console.log(this.tasks);
+    this.calculateTaskCounts(); // ⬅️ Count task statuses
+  }
+
+  calculateTaskCounts(): void {
+    this.totalTasks = this.tasks.length;
+    this.completedTasks = this.tasks.filter(
+      (task: Task) => task.status === "Completed"
+    ).length;
+    this.inProgressTasks = this.tasks.filter(
+      (task: Task) => task.status === "In Progress"
+    ).length;
+    this.pendingTasks = this.tasks.filter(
+      (task: Task) => task.status === "Pending"
+    ).length;
   }
   openModal() {
     this.showModal = true; // Show the modal
@@ -39,23 +59,58 @@ export class DashboardComponent implements OnInit {
 
   closeModal() {
     this.showModal = false; // Hide the modal
+    this.isEditMode = false;
+    this.newTask = new Task(0, "", "", true, "Pending", "Medium", "", "");
   }
+
+  getStatusClass(status: string) {
+    return {
+      "status-pending": status === "Pending",
+      "status-in-progress": status === "In Progress",
+      "status-completed": status === "Completed",
+    };
+  }
+
+  getPriorityClass(priority: string) {
+    return {
+      "priority-low": priority === "Low",
+      "priority-medium": priority === "Medium",
+      "priority-high": priority === "High",
+      "priority-urgent": priority === "Urgent",
+    };
+  }
+
   submitTask(event: Event) {
-    this.tasks.push(this.newTask);
-    this.newTask.sno = this.tasks.length + 1; // Assign a unique sno based on the current length of tasks
-    // Save tasks to localStorage
+    event.preventDefault();
+
+    if (this.isEditMode && this.editingTaskIndex !== -1) {
+      this.tasks[this.editingTaskIndex] = { ...this.newTask };
+    } else {
+      this.newTask.sno = this.tasks.length + 1;
+      this.calculateTaskCounts();
+      this.tasks.push({ ...this.newTask });
+    }
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    
-    console.log("Task submitted", this.newTask);
     this.closeModal();
-    this.newTask = new Task(0, "", "", true, "", ""); // Reset newTask
-    this.showCreateTask = false;
+    // this.tasks.push(this.newTask);
+    // this.newTask.sno = this.tasks.length + 1;
+    // this.calculateTaskCounts();
+
+    // localStorage.setItem("tasks", JSON.stringify(this.tasks));
+
+    // console.log("Task submitted", this.newTask);
+    // this.closeModal();
+    // this.newTask = new Task(0, "", "", true, "", "", "", "");
+    // this.showCreateTask = false;
   }
 
   editTask(task: Task) {
     console.log("Edit task clicked", task);
-    this.selectedTodo = task;
-    this.showCreateTask = true;
+    this.isEditMode = true;
+    this.editingTaskIndex = this.tasks.findIndex(
+      (t: { sno: number }) => t.sno === task.sno
+    );
+    this.newTask = { ...task }; // clone to avoid live editing
     this.openModal();
   }
   deleteTask(task: Task) {
@@ -64,6 +119,7 @@ export class DashboardComponent implements OnInit {
     if (index > -1) {
       this.tasks.splice(index, 1);
       localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      this.calculateTaskCounts();
       console.log("Task deleted");
     } else {
       console.error("Task not found");

@@ -293,5 +293,37 @@ body {
 .popup-menu button:hover {
   background-color: #f0f0f0;
 }
+.status-pending {
+  background-color: #f44336; /* Red */
+}
+
+.status-in-progress {
+  background-color: #ff9800; /* Orange */
+}
+
+.status-completed {
+  background-color: #4caf50; /* Green */
+}
+
+.priority-low {
+  background-color: #8bc34a; /* Light green */
+}
+
+.priority-medium {
+  background-color: #03a9f4; /* Blue */
+}
+
+.priority-high {
+  background-color: #ff9800; /* Orange */
+}
+
+.priority-urgent {
+  background-color: #e91e63; /* Pink/Red */
+}
+
+.badge {
+  color: white;
+}
+
 
 

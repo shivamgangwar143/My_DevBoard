@@ -146,12 +146,21 @@
                 </div>
               </div>
 
+              <label>Assigned To</label>
+              <input
+                [(ngModel)]="newTask.assignedTo"
+                name="assignedTo"
+                type="text"
+                placeholder="Enter member name"
+                required
+              />
+
               <label>Assigned By</label>
               <input
                 [(ngModel)]="newTask.assignee"
                 name="assignee"
                 type="text"
-                placeholder="Enter assignee name"
+                placeholder="Enter your name"
                 required
               />
 
@@ -179,28 +188,28 @@
           <h5>Total Tasks</h5>
           <div class="dash-icon">
             <i style="color: blue" class="bi bi-graph-up-arrow fs-5"></i>
-            <h3>4</h3>
+            <h3>{{totalTasks}}</h3>
           </div>
         </div>
         <div class="card">
           <h5>Comleted</h5>
           <div class="dash-icon">
             <i style="color: green" class="bi bi-check2-circle fs-5"></i>
-            <h3>4</h3>
+            <h3>{{completedTasks}}</h3>
           </div>
         </div>
         <div class="card">
           <h5>In Progress</h5>
           <div class="dash-icon">
-            <i style="color: yellow" class="bi bi-clock fs-5"></i>
-            <h3>4</h3>
+            <i style="color: #ff9800" class="bi bi-clock fs-5"></i>
+            <h3>{{inProgressTasks}}</h3>
           </div>
         </div>
         <div class="card">
           <h5>Pending</h5>
           <div class="dash-icon">
             <i style="color: red" class="bi bi-exclamation-circle fs-5"></i>
-            <h3>4</h3>
+            <h3>{{pendingTasks}}</h3>
           </div>
         </div>
       </div>
@@ -220,8 +229,8 @@
                 <h5>{{ task.title }}</h5>
               </div>
               <div style="display: flex; gap: 5px; margin-top: 3px">
-                <span class="badge bg-warning">{{ task.status }}</span>
-                <span class="badge bg-danger">{{ task.priority }}</span>
+                <span class="badge" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
+                <span class="badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</span>
               </div>
             </div>
             <div class="menu-trigger" (click)="toggleMenu($event, task.sno)">
@@ -232,7 +241,7 @@
                   <a class="list-group-item" (click)="editTask(task)">
                     <i (click)="editTask(task)" class="bi bi-pencil-square">Edit</i>
                   </a>
-                  <a class="list-group-item" (click)="deleteTask(task)">
+                  <a *ngIf="userRole=== 'admin'" class="list-group-item">
                     <i (click)="deleteTask(task)" class="bi bi-trash3">Delete</i>
                   </a>
                 </div>
@@ -242,7 +251,8 @@
 
           <div class="card-body">
             <p>{{ task.desc }}</p>
-            <p><strong>Assigned By:</strong> {{ task.assignee }}</p>
+            <p *ngIf="userRole === 'admin'"><strong>Assigned To:</strong> {{ task.assignedTo }}</p>
+            <p *ngIf="userRole === 'member'"><strong>Assigned By:</strong> {{ task.assignee }}</p>
             <p>
               <strong>Due Date:</strong> {{ task.dueDate | date : "shortDate" }}
             </p>

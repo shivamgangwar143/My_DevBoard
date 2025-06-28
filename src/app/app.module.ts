@@ -13,9 +13,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TodosComponent } from './todos/todos.component';
-import { TodoItemComponent } from './todo-item/todo-item.component';
-import { AddTodoComponent } from './add-todo/add-todo.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -30,9 +27,6 @@ import { AuthInterceptor } from './auth.interceptor';
     FullLayoutComponent,
     NavbarComponent,
     ProfileComponent,
-    TodosComponent,
-    TodoItemComponent,
-    AddTodoComponent,
     HomeComponent,
     DashboardComponent  ],
   imports: [

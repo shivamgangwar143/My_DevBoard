@@ -7,7 +7,6 @@ import { FullLayoutComponent } from './layouts/full-layout/full-layout.component
 import { AppComponent } from './app.component';
 import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
-import { TodosComponent } from './todos/todos.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RoleGuard } from './role.guard';
@@ -30,7 +29,6 @@ const routes: Routes = [
     component: FullLayoutComponent,
     children: [
       { path: 'profile', component: AppComponent },
-      { path: 'tasks', component: TodosComponent }
       // Add more secure routes here
     ]
   },
