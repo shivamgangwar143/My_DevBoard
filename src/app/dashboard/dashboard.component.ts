@@ -41,19 +41,12 @@ export class DashboardComponent implements OnInit {
     this.showModal = false; // Hide the modal
   }
   submitTask(event: Event) {
-    // const task = new Task(
-    //   this.newTask.title,
-    //   this.newTask.desc,
-    //   this.newTask.active,
-    //   this.newTask.status,
-    //   this.newTask.priority,
-    //   this.newTask.dueDate,
-    //   this.newTask.assignee
-    // );
-    this.tasks.push(this.newTask, "Task card created successfully");
-
+    this.tasks.push(this.newTask);
+    this.newTask.sno = this.tasks.length + 1; // Assign a unique sno based on the current length of tasks
     // Save tasks to localStorage
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    
+    console.log("Task submitted", this.newTask);
     this.closeModal();
     this.newTask = new Task(0, "", "", true, "", ""); // Reset newTask
     this.showCreateTask = false;
@@ -87,15 +80,15 @@ export class DashboardComponent implements OnInit {
       console.error("Task not found");
     }
   }
-  addTask(task: Task) {
-    console.log("Add task clicked", task);
-    if (!this.tasks) {
-      this.tasks = [];
-    }
-    this.tasks.push(task);
-    localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    console.log("Task added");
-  }
+  // addTask(task: Task) {
+  //   console.log("Add task clicked", task);
+  //   if (!this.tasks) {
+  //     this.tasks = [];
+  //   }
+  //   this.tasks.push(task);
+  //   localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  //   console.log("Task added");
+  // }
   // Function to toggle the visibility of the three dots menu
   // This function is called when the three dots icon is clicked
   threeDots() {
@@ -111,11 +104,11 @@ export class DashboardComponent implements OnInit {
   toggleCreateTask() {
     this.showCreateTask = !this.showCreateTask;
   }
-  toggleMenu(event: MouseEvent, index: number) {
+  toggleMenu(event: MouseEvent, sno: number) {
     event.stopPropagation(); // Prevent the click from propagating to the document
 
-    this.activeMenuId = this.activeMenuId === index ? null : index;
-    console.log("Toggle menu clicked for task ID:", index);
+    this.activeMenuId = this.activeMenuId === sno ? null : sno;
+    console.log("Toggle menu clicked for task ID:", sno);
   }
   logout() {
     this.auth.logout();

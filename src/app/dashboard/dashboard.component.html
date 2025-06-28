@@ -224,11 +224,11 @@
                 <span class="badge bg-danger">{{ task.priority }}</span>
               </div>
             </div>
-            <div class="menu-trigger">
-              <div class="bi bi-three-dots fs-5" (click)="showBox = true"></div>
-              <div *ngIf="showBox" class="popup-menu">
+            <div class="menu-trigger" (click)="toggleMenu($event, task.sno)">
+              <div class="bi bi-three-dots fs-5"></div>
+              <div *ngIf="activeMenuId === task.sno" class="popup-menu">
                 <div class="list-group">
-                    <span (click)="showBox= false" class="close-btn" id="closeModal">&times;</span>
+                    <span (click)="activeMenuId = null" class="close-btn" id="closeModal">&times;</span>
                   <a class="list-group-item" (click)="editTask(task)">
                     <i (click)="editTask(task)" class="bi bi-pencil-square">Edit</i>
                   </a>
@@ -236,9 +236,6 @@
                     <i (click)="deleteTask(task)" class="bi bi-trash3">Delete</i>
                   </a>
                 </div>
-                <!-- <i (click)="editTask(task)" class="bi bi-pencil-square">Edit</i>
-                <i (click)="deleteTask(task)" class="bi bi-trash3">Delete</i> -->
-                <!-- <button (click)="showBox = false">Close</button> -->
               </div>
             </div>
           </div>
