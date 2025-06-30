@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { Task } from "../task"; // Import Task model
+import { TaskService } from "../task.service"; // Import TaskService
 
 
 @Component({
@@ -30,13 +31,17 @@ export class DashboardComponent implements OnInit {
   inProgressTasks: number = 0;
   pendingTasks: number = 0;
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private taskService: TaskService ) {}
 
   ngOnInit(): void {
     this.userName = this.auth.getUserEmail();
     this.userRole = this.auth.getUserRole();
-    const savedTasks = localStorage.getItem("tasks");
-    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
+    });
+
+    // const savedTasks = localStorage.getItem("tasks");
+    // this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
     console.log(this.tasks);
     this.calculateTaskCounts(); // ⬅️ Count task statuses
   }
@@ -86,12 +91,20 @@ export class DashboardComponent implements OnInit {
     if (this.isEditMode && this.editingTaskIndex !== -1) {
       this.tasks[this.editingTaskIndex] = { ...this.newTask };
     } else {
-      this.newTask.sno = this.tasks.length + 1;
+      this.newTask.sno = Date.now(); // Use timestamp as unique ID
       this.calculateTaskCounts();
       this.tasks.push({ ...this.newTask });
     }
-    localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    this.closeModal();
+    this.taskService.createTask(this.newTask).subscribe((response) => {
+      this.tasks.push(response.task); // Add new task to local array
+      this.closeModal();
+      //this.newTask = new Task(); 
+      // Reset form
+    });
+
+    //localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    //this.closeModal();
+
     // this.tasks.push(this.newTask);
     // this.newTask.sno = this.tasks.length + 1;
     // this.calculateTaskCounts();
@@ -111,6 +124,8 @@ export class DashboardComponent implements OnInit {
       (t: { sno: number }) => t.sno === task.sno
     );
     this.newTask = { ...task }; // clone to avoid live editing
+    this.selectedTodo = { ...task };
+
     this.openModal();
   }
   deleteTask(task: Task) {
