@@ -36,12 +36,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.userName = this.auth.getUserEmail();
     this.userRole = this.auth.getUserRole();
-    this.taskService.getTasks().subscribe((tasks) => {
-      this.tasks = tasks;
-    });
+    // this.taskService.getTasks().subscribe((tasks) => {
+    //   this.tasks = tasks;
+    // });
 
-    // const savedTasks = localStorage.getItem("tasks");
-    // this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
+    const savedTasks = localStorage.getItem("tasks");
+    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
     console.log(this.tasks);
     this.calculateTaskCounts(); // ⬅️ Count task statuses
   }
@@ -95,15 +95,15 @@ export class DashboardComponent implements OnInit {
       this.calculateTaskCounts();
       this.tasks.push({ ...this.newTask });
     }
-    this.taskService.createTask(this.newTask).subscribe((response) => {
-      this.tasks.push(response.task); // Add new task to local array
-      this.closeModal();
-      //this.newTask = new Task(); 
-      // Reset form
-    });
+    // this.taskService.createTask(this.newTask).subscribe((response) => {
+    //   this.tasks.push(response.task); // Add new task to local array
+    //   this.closeModal();
+    //   this.newTask = new Task(); 
+      
+    // });
 
-    //localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    //this.closeModal();
+    localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    this.closeModal();
 
     // this.tasks.push(this.newTask);
     // this.newTask.sno = this.tasks.length + 1;

@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
 });
 // ✅ Task Schema
 const taskSchema = new mongoose.Schema({
+  sno: Number,
   title: String,
   desc: String,
   status: String,
