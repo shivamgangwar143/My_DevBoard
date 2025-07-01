@@ -263,14 +263,67 @@ body {
 .bi-three-dots{
     cursor: pointer;
 }
-.pop-up{
-    position: fixed;
-        top: 42%;
-        left: 88%;
-        transform: translate(-50%, -30%);
-        background: white;
-        border: 1px solid #ccc;
-        padding: 20px;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.popup-menu {
+  position: absolute;
+  top: 60px; /* adjust as needed */
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
 }
+.bi-pencil-square {
+  /* padding: 10px 16px; */
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.bi-trash3 {
+  /* padding: 10px 16px; */
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: red;
+}
+.popup-menu button:hover {
+  background-color: #f0f0f0;
+}
+.status-pending {
+  background-color: #f44336; /* Red */
+}
+
+.status-in-progress {
+  background-color: #ff9800; /* Orange */
+}
+
+.status-completed {
+  background-color: #4caf50; /* Green */
+}
+
+.priority-low {
+  background-color: #8bc34a; /* Light green */
+}
+
+.priority-medium {
+  background-color: #03a9f4; /* Blue */
+}
+
+.priority-high {
+  background-color: #ff9800; /* Orange */
+}
+
+.priority-urgent {
+  background-color: #e91e63; /* Pink/Red */
+}
+
+.badge {
+  color: white;
+}
+
+
+

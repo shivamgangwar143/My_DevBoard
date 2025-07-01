@@ -29,6 +29,58 @@ const userSchema = new mongoose.Schema({
   password: String,
   role: String,
 });
+// ✅ Task Schema
+const taskSchema = new mongoose.Schema({
+  sno: Number,
+  title: String,
+  desc: String,
+  status: String,
+  priority: String,
+  assignedTo: String,
+  assignee: String,
+  dueDate: String,
+});
+
+const Task = mongoose.model("Task", taskSchema);
+app.post("/tasks", async (req, res) => {
+  try {
+    const task = new Task(req.body);
+    await task.save();
+    res.status(201).json({ message: "Task created", task });
+  } catch (err) {
+    res.status(500).json({ message: "Error creating task" });
+  }
+});
+app.get("/tasks", async (req, res) => {
+  try {
+    const tasks = await Task.find();
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching tasks" });
+  }
+});
+//Update task
+app.put("/tasks/:id", async (req, res) => {
+  try {
+    const updated = await Task.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating task" });
+  }
+});
+// Delete task
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    await Task.findByIdAndDelete(req.params.id);
+    res.json({ message: "Task deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting task" });
+  }
+});
+
+
 
 const User = mongoose.model("User", userSchema);
 

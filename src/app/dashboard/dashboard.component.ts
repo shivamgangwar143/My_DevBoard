@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { Task } from "../task"; // Import Task model
+import { TaskService } from "../task.service"; // Import TaskService
 
 
 @Component({
@@ -14,23 +15,48 @@ export class DashboardComponent implements OnInit {
   resizing = false;
   selectedTodo: any;
   showCreateTask: boolean = false;
+  showAssignee: boolean = false; // For showing assignee options
   userEmail: string | null = null;
   userName: string | null = null;
   userRole: string | null = null;
   showBox = false;
   showModal = false; // For modal visibility
-
+  isEditMode: boolean = false;
+  editingTaskIndex: number = -1;
+  activeMenuId: number | null = null;
   tasks: Task[] | any; // Array to hold tasks
-  newTask: Task = new Task("", "", true, "Pending", "Medium", "", ""); // New task object
+  newTask: Task = new Task(0, "", "", true, "Pending", "Medium", "", "", ""); // New task object
+  totalTasks: number = 0;
+  completedTasks: number = 0;
+  inProgressTasks: number = 0;
+  pendingTasks: number = 0;
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private taskService: TaskService ) {}
 
   ngOnInit(): void {
     this.userName = this.auth.getUserEmail();
     this.userRole = this.auth.getUserRole();
+    // this.taskService.getTasks().subscribe((tasks) => {
+    //   this.tasks = tasks;
+    // });
+
     const savedTasks = localStorage.getItem("tasks");
     this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
     console.log(this.tasks);
+    this.calculateTaskCounts(); // ⬅️ Count task statuses
+  }
+
+  calculateTaskCounts(): void {
+    this.totalTasks = this.tasks.length;
+    this.completedTasks = this.tasks.filter(
+      (task: Task) => task.status === "Completed"
+    ).length;
+    this.inProgressTasks = this.tasks.filter(
+      (task: Task) => task.status === "In Progress"
+    ).length;
+    this.pendingTasks = this.tasks.filter(
+      (task: Task) => task.status === "Pending"
+    ).length;
   }
   openModal() {
     this.showModal = true; // Show the modal
@@ -38,30 +64,68 @@ export class DashboardComponent implements OnInit {
 
   closeModal() {
     this.showModal = false; // Hide the modal
+    this.isEditMode = false;
+    this.newTask = new Task(0, "", "", true, "Pending", "Medium", "", "");
   }
-  submitTask(event: Event) {
-    // const task = new Task(
-    //   this.newTask.title,
-    //   this.newTask.desc,
-    //   this.newTask.active,
-    //   this.newTask.status,
-    //   this.newTask.priority,
-    //   this.newTask.dueDate,
-    //   this.newTask.assignee
-    // );
-    this.tasks.push(this.newTask, "Task card created successfully");
 
-    // Save tasks to localStorage
+  getStatusClass(status: string) {
+    return {
+      "status-pending": status === "Pending",
+      "status-in-progress": status === "In Progress",
+      "status-completed": status === "Completed",
+    };
+  }
+
+  getPriorityClass(priority: string) {
+    return {
+      "priority-low": priority === "Low",
+      "priority-medium": priority === "Medium",
+      "priority-high": priority === "High",
+      "priority-urgent": priority === "Urgent",
+    };
+  }
+
+  submitTask(event: Event) {
+    event.preventDefault();
+
+    if (this.isEditMode && this.editingTaskIndex !== -1) {
+      this.tasks[this.editingTaskIndex] = { ...this.newTask };
+    } else {
+      this.newTask.sno = Date.now(); // Use timestamp as unique ID
+      this.calculateTaskCounts();
+      this.tasks.push({ ...this.newTask });
+    }
+    // this.taskService.createTask(this.newTask).subscribe((response) => {
+    //   this.tasks.push(response.task); // Add new task to local array
+    //   this.closeModal();
+    //   this.newTask = new Task(); 
+      
+    // });
+
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
     this.closeModal();
-    this.newTask = new Task("", "", true, "", ""); // Reset newTask
-    this.showCreateTask = false;
+
+    // this.tasks.push(this.newTask);
+    // this.newTask.sno = this.tasks.length + 1;
+    // this.calculateTaskCounts();
+
+    // localStorage.setItem("tasks", JSON.stringify(this.tasks));
+
+    // console.log("Task submitted", this.newTask);
+    // this.closeModal();
+    // this.newTask = new Task(0, "", "", true, "", "", "", "");
+    // this.showCreateTask = false;
   }
 
   editTask(task: Task) {
     console.log("Edit task clicked", task);
-    this.selectedTodo = task;
-    this.showCreateTask = true;
+    this.isEditMode = true;
+    this.editingTaskIndex = this.tasks.findIndex(
+      (t: { sno: number }) => t.sno === task.sno
+    );
+    this.newTask = { ...task }; // clone to avoid live editing
+    this.selectedTodo = { ...task };
+
     this.openModal();
   }
   deleteTask(task: Task) {
@@ -70,6 +134,7 @@ export class DashboardComponent implements OnInit {
     if (index > -1) {
       this.tasks.splice(index, 1);
       localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      this.calculateTaskCounts();
       console.log("Task deleted");
     } else {
       console.error("Task not found");
@@ -86,15 +151,15 @@ export class DashboardComponent implements OnInit {
       console.error("Task not found");
     }
   }
-  addTask(task: Task) {
-    console.log("Add task clicked", task);
-    if (!this.tasks) {
-      this.tasks = [];
-    }
-    this.tasks.push(task);
-    localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    console.log("Task added");
-  }
+  // addTask(task: Task) {
+  //   console.log("Add task clicked", task);
+  //   if (!this.tasks) {
+  //     this.tasks = [];
+  //   }
+  //   this.tasks.push(task);
+  //   localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  //   console.log("Task added");
+  // }
   // Function to toggle the visibility of the three dots menu
   // This function is called when the three dots icon is clicked
   threeDots() {
@@ -109,6 +174,12 @@ export class DashboardComponent implements OnInit {
 
   toggleCreateTask() {
     this.showCreateTask = !this.showCreateTask;
+  }
+  toggleMenu(event: MouseEvent, sno: number) {
+    event.stopPropagation(); // Prevent the click from propagating to the document
+
+    this.activeMenuId = this.activeMenuId === sno ? null : sno;
+    console.log("Toggle menu clicked for task ID:", sno);
   }
   logout() {
     this.auth.logout();
@@ -128,6 +199,14 @@ export class DashboardComponent implements OnInit {
       const totalWidth = window.innerWidth;
       this.leftWidth = (event.clientX / totalWidth) * 100;
       this.rightWidth = 100 - this.leftWidth;
+    }
+  }
+  @HostListener("document:click", ["$event"])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest(".popup-menu") && !target.closest(".menu-trigger")) {
+      this.activeMenuId = null;
     }
   }
 
