@@ -257,6 +257,9 @@
             [(ngModel)]="filters.assignedTo"
             (input)="applyFilters()"
           />
+          <button class="btn btn-outline-secondary" (click)="clearFilters()">
+            Clear
+          </button>
         </div>
       </div>
       <div class="card tasks-cards">

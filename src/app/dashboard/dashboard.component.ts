@@ -25,22 +25,21 @@ export class DashboardComponent implements OnInit {
   editingTaskIndex: number = -1;
   activeMenuId: string | null = null;
   tasks: Task[] | any; // Array to hold tasks
-  newTask: Task = new Task( "", "", true, "Pending", "Medium", "", "", ""); // New task object
+  newTask: Task = new Task("", "", true, "Pending", "Medium", "", "", ""); // New task object
   totalTasks: number = 0;
   completedTasks: number = 0;
   inProgressTasks: number = 0;
   pendingTasks: number = 0;
   filters = {
-    keyword: '',
-    status: '',
-    priority: '',
-    assignedTo: ''
+    keyword: "",
+    status: "",
+    priority: "",
+    assignedTo: "",
   };
 
   filteredTasks: Task[] = []; // This is used for displaying
-  
 
-  constructor(public auth: AuthService, private taskService: TaskService) { }
+  constructor(public auth: AuthService, private taskService: TaskService) {}
 
   ngOnInit(): void {
     this.userName = this.auth.getUserEmail();
@@ -54,7 +53,6 @@ export class DashboardComponent implements OnInit {
     // const savedTasks = localStorage.getItem("tasks");
     // this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
     // console.log(this.tasks);
-    
   }
 
   applyFilters() {
@@ -72,13 +70,25 @@ export class DashboardComponent implements OnInit {
         : true;
 
       const matchesAssignedTo = this.filters.assignedTo
-        ? task.assignedTo.toLowerCase().includes(this.filters.assignedTo.toLowerCase())
+        ? task.assignedTo
+            .toLowerCase()
+            .includes(this.filters.assignedTo.toLowerCase())
         : true;
 
-      return matchesKeyword && matchesStatus && matchesPriority && matchesAssignedTo;
+      return (
+        matchesKeyword && matchesStatus && matchesPriority && matchesAssignedTo
+      );
     });
   }
-  
+  clearFilters() {
+    this.filters = {
+      keyword: "",
+      status: "",
+      priority: "",
+      assignedTo: "",
+    };
+    this.applyFilters();
+  }
 
   calculateTaskCounts(): void {
     this.totalTasks = this.tasks.length;
@@ -140,7 +150,9 @@ export class DashboardComponent implements OnInit {
       // 🟡 Edit mode: update the task
       this.taskService.updateTask(this.newTask._id, this.newTask).subscribe({
         next: (updatedTask) => {
-          const index = this.tasks.findIndex((t: Task) => t._id === updatedTask._id);
+          const index = this.tasks.findIndex(
+            (t: Task) => t._id === updatedTask._id
+          );
           if (index !== -1) {
             this.tasks[index] = updatedTask;
           }
@@ -149,7 +161,7 @@ export class DashboardComponent implements OnInit {
         },
         error: (err) => {
           console.error("Update failed", err);
-        }
+        },
       });
     } else {
       // 🟢 Create new task
@@ -159,17 +171,23 @@ export class DashboardComponent implements OnInit {
           this.calculateTaskCounts();
           this.closeModal();
 
-          this.newTask = new Task( "", "", true, "Pending", "Medium", "", "", "");
+          this.newTask = new Task(
+            "",
+            "",
+            true,
+            "Pending",
+            "Medium",
+            "",
+            "",
+            ""
+          );
         },
         error: (err) => {
           console.error("Create failed", err);
-        }
+        },
       });
     }
   }
-  
-
-
 
   editTask(task: Task) {
     console.log("Edit task clicked", task);
@@ -208,10 +226,10 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error("❌ Failed to delete task from backend:", err);
-      }
+      },
     });
   }
-  
+
   toggleTask(task: Task) {
     console.log("Toggle task clicked", task);
     const index = this.tasks.indexOf(task);
