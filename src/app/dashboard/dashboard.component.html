@@ -233,12 +233,12 @@
                 <span class="badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</span>
               </div>
             </div>
-            <div class="menu-trigger" (click)="toggleMenu($event, task.sno)">
+            <div class="menu-trigger" (click)="toggleMenu($event, task._id)">
               <div class="bi bi-three-dots fs-5"></div>
-              <div *ngIf="activeMenuId === task.sno" class="popup-menu">
+              <div *ngIf="activeMenuId === task._id" class="popup-menu">
                 <div class="list-group">
                     <span (click)="activeMenuId = null" class="close-btn" id="closeModal">&times;</span>
-                  <a class="list-group-item" (click)="editTask(task)">
+                  <a class="list-group-item">
                     <i (click)="editTask(task)" class="bi bi-pencil-square">Edit</i>
                   </a>
                   <a *ngIf="userRole=== 'admin'" class="list-group-item">

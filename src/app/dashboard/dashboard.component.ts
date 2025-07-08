@@ -23,27 +23,28 @@ export class DashboardComponent implements OnInit {
   showModal = false; // For modal visibility
   isEditMode: boolean = false;
   editingTaskIndex: number = -1;
-  activeMenuId: number | null = null;
+  activeMenuId: string | null = null;
   tasks: Task[] | any; // Array to hold tasks
-  newTask: Task = new Task(0, "", "", true, "Pending", "Medium", "", "", ""); // New task object
+  newTask: Task = new Task( "", "", true, "Pending", "Medium", "", "", ""); // New task object
   totalTasks: number = 0;
   completedTasks: number = 0;
   inProgressTasks: number = 0;
   pendingTasks: number = 0;
 
-  constructor(public auth: AuthService, private taskService: TaskService ) {}
+  constructor(public auth: AuthService, private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.userName = this.auth.getUserEmail();
     this.userRole = this.auth.getUserRole();
-    // this.taskService.getTasks().subscribe((tasks) => {
-    //   this.tasks = tasks;
-    // });
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks;
+      this.calculateTaskCounts(); // Count tasks
+    });
 
-    const savedTasks = localStorage.getItem("tasks");
-    this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
-    console.log(this.tasks);
-    this.calculateTaskCounts(); // ⬅️ Count task statuses
+    // const savedTasks = localStorage.getItem("tasks");
+    // this.tasks = savedTasks ? JSON.parse(savedTasks) : [];
+    // console.log(this.tasks);
+    
   }
 
   calculateTaskCounts(): void {
@@ -65,7 +66,7 @@ export class DashboardComponent implements OnInit {
   closeModal() {
     this.showModal = false; // Hide the modal
     this.isEditMode = false;
-    this.newTask = new Task(0, "", "", true, "Pending", "Medium", "", "");
+    this.newTask = new Task("", "", true, "Pending", "Medium", "", "");
   }
 
   getStatusClass(status: string) {
@@ -85,61 +86,99 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  // submitTask(event: Event) {
+  //   event.preventDefault();
+
+  //   if (this.isEditMode && this.editingTaskIndex !== -1) {
+  //     this.tasks[this.editingTaskIndex] = { ...this.newTask };
+  //   } else {
+  //     this.newTask.sno = Date.now(); // Use timestamp as unique ID
+  //     this.calculateTaskCounts();
+  //     this.tasks.push({ ...this.newTask });
+  //   }
+
+  //   localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  //   this.closeModal();
+  // }
   submitTask(event: Event) {
     event.preventDefault();
 
-    if (this.isEditMode && this.editingTaskIndex !== -1) {
-      this.tasks[this.editingTaskIndex] = { ...this.newTask };
+    if (this.isEditMode && this.newTask._id) {
+      // 🟡 Edit mode: update the task
+      this.taskService.updateTask(this.newTask._id, this.newTask).subscribe({
+        next: (updatedTask) => {
+          const index = this.tasks.findIndex((t: Task) => t._id === updatedTask._id);
+          if (index !== -1) {
+            this.tasks[index] = updatedTask;
+          }
+          this.calculateTaskCounts();
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error("Update failed", err);
+        }
+      });
     } else {
-      this.newTask.sno = Date.now(); // Use timestamp as unique ID
-      this.calculateTaskCounts();
-      this.tasks.push({ ...this.newTask });
+      // 🟢 Create new task
+      this.taskService.createTask(this.newTask).subscribe({
+        next: (response) => {
+          this.tasks.push(response.task);
+          this.calculateTaskCounts();
+          this.closeModal();
+
+          this.newTask = new Task( "", "", true, "Pending", "Medium", "", "", "");
+        },
+        error: (err) => {
+          console.error("Create failed", err);
+        }
+      });
     }
-    // this.taskService.createTask(this.newTask).subscribe((response) => {
-    //   this.tasks.push(response.task); // Add new task to local array
-    //   this.closeModal();
-    //   this.newTask = new Task(); 
-      
-    // });
-
-    localStorage.setItem("tasks", JSON.stringify(this.tasks));
-    this.closeModal();
-
-    // this.tasks.push(this.newTask);
-    // this.newTask.sno = this.tasks.length + 1;
-    // this.calculateTaskCounts();
-
-    // localStorage.setItem("tasks", JSON.stringify(this.tasks));
-
-    // console.log("Task submitted", this.newTask);
-    // this.closeModal();
-    // this.newTask = new Task(0, "", "", true, "", "", "", "");
-    // this.showCreateTask = false;
   }
+  
+
+
 
   editTask(task: Task) {
     console.log("Edit task clicked", task);
     this.isEditMode = true;
     this.editingTaskIndex = this.tasks.findIndex(
-      (t: { sno: number }) => t.sno === task.sno
+      (t: { id: string }) => t.id === task._id
     );
     this.newTask = { ...task }; // clone to avoid live editing
     this.selectedTodo = { ...task };
 
     this.openModal();
   }
+  // deleteTask(task: Task) {
+  //   console.log("Delete task clicked", task);
+  //   const index = this.tasks.indexOf(task);
+  //   if (index > -1) {
+  //     this.tasks.splice(index, 1);
+  //     localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  //     this.calculateTaskCounts();
+  //     console.log("Task deleted");
+  //   } else {
+  //     console.error("Task not found");
+  //   }
+  // }
   deleteTask(task: Task) {
-    console.log("Delete task clicked", task);
-    const index = this.tasks.indexOf(task);
-    if (index > -1) {
-      this.tasks.splice(index, 1);
-      localStorage.setItem("tasks", JSON.stringify(this.tasks));
-      this.calculateTaskCounts();
-      console.log("Task deleted");
-    } else {
-      console.error("Task not found");
+    if (!task._id) {
+      console.error("Cannot delete task without _id");
+      return;
     }
+
+    this.taskService.deleteTask(task._id).subscribe({
+      next: () => {
+        this.tasks = this.tasks.filter((t: Task) => t._id !== task._id);
+        this.calculateTaskCounts();
+        console.log("✅ Task deleted from backend and frontend");
+      },
+      error: (err) => {
+        console.error("❌ Failed to delete task from backend:", err);
+      }
+    });
   }
+  
   toggleTask(task: Task) {
     console.log("Toggle task clicked", task);
     const index = this.tasks.indexOf(task);
@@ -175,11 +214,11 @@ export class DashboardComponent implements OnInit {
   toggleCreateTask() {
     this.showCreateTask = !this.showCreateTask;
   }
-  toggleMenu(event: MouseEvent, sno: number) {
+  toggleMenu(event: MouseEvent, id: string) {
     event.stopPropagation(); // Prevent the click from propagating to the document
 
-    this.activeMenuId = this.activeMenuId === sno ? null : sno;
-    console.log("Toggle menu clicked for task ID:", sno);
+    this.activeMenuId = this.activeMenuId === id ? null : id;
+    console.log("Toggle menu clicked for task ID:", id);
   }
   logout() {
     this.auth.logout();
