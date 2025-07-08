@@ -30,6 +30,15 @@ export class DashboardComponent implements OnInit {
   completedTasks: number = 0;
   inProgressTasks: number = 0;
   pendingTasks: number = 0;
+  filters = {
+    keyword: '',
+    status: '',
+    priority: '',
+    assignedTo: ''
+  };
+
+  filteredTasks: Task[] = []; // This is used for displaying
+  
 
   constructor(public auth: AuthService, private taskService: TaskService) { }
 
@@ -38,6 +47,7 @@ export class DashboardComponent implements OnInit {
     this.userRole = this.auth.getUserRole();
     this.taskService.getTasks().subscribe((tasks) => {
       this.tasks = tasks;
+      this.filteredTasks = tasks;
       this.calculateTaskCounts(); // Count tasks
     });
 
@@ -46,6 +56,29 @@ export class DashboardComponent implements OnInit {
     // console.log(this.tasks);
     
   }
+
+  applyFilters() {
+    this.filteredTasks = this.tasks.filter((task: Task) => {
+      const matchesKeyword =
+        task.title.toLowerCase().includes(this.filters.keyword.toLowerCase()) ||
+        task.desc.toLowerCase().includes(this.filters.keyword.toLowerCase());
+
+      const matchesStatus = this.filters.status
+        ? task.status === this.filters.status
+        : true;
+
+      const matchesPriority = this.filters.priority
+        ? task.priority === this.filters.priority
+        : true;
+
+      const matchesAssignedTo = this.filters.assignedTo
+        ? task.assignedTo.toLowerCase().includes(this.filters.assignedTo.toLowerCase())
+        : true;
+
+      return matchesKeyword && matchesStatus && matchesPriority && matchesAssignedTo;
+    });
+  }
+  
 
   calculateTaskCounts(): void {
     this.totalTasks = this.tasks.length;
