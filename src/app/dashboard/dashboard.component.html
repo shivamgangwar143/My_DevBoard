@@ -188,39 +188,84 @@
           <h5>Total Tasks</h5>
           <div class="dash-icon">
             <i style="color: blue" class="bi bi-graph-up-arrow fs-5"></i>
-            <h3>{{totalTasks}}</h3>
+            <h3>{{ totalTasks }}</h3>
           </div>
         </div>
         <div class="card">
           <h5>Comleted</h5>
           <div class="dash-icon">
             <i style="color: green" class="bi bi-check2-circle fs-5"></i>
-            <h3>{{completedTasks}}</h3>
+            <h3>{{ completedTasks }}</h3>
           </div>
         </div>
         <div class="card">
           <h5>In Progress</h5>
           <div class="dash-icon">
             <i style="color: #ff9800" class="bi bi-clock fs-5"></i>
-            <h3>{{inProgressTasks}}</h3>
+            <h3>{{ inProgressTasks }}</h3>
           </div>
         </div>
         <div class="card">
           <h5>Pending</h5>
           <div class="dash-icon">
             <i style="color: red" class="bi bi-exclamation-circle fs-5"></i>
-            <h3>{{pendingTasks}}</h3>
+            <h3>{{ pendingTasks }}</h3>
           </div>
         </div>
       </div>
       <div class="all-tasks">
-        <h5 class="tasks-heading fw-bold">Recent Tasks</h5>
-        <p>All tasks across your teams</p>
+        <div>
+          <h5 class="tasks-heading fw-bold">Recent Tasks</h5>
+          <p>All tasks across your teams</p>
+        </div>
+        <div class="d-flex gap-2 align-items-end" style="margin-bottom: 9px;">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by title or description"
+            [(ngModel)]="filters.keyword"
+            (input)="applyFilters()"
+          />
+
+          <select
+            class="form-select"
+            [(ngModel)]="filters.status"
+            (change)="applyFilters()"
+          >
+            <option value="">All Status</option>
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+          </select>
+
+          <select
+            class="form-select"
+            [(ngModel)]="filters.priority"
+            (change)="applyFilters()"
+          >
+            <option value="">All Priority</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Urgent</option>
+          </select>
+
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Assigned To"
+            [(ngModel)]="filters.assignedTo"
+            (input)="applyFilters()"
+          />
+          <button class="btn btn-outline-secondary" (click)="clearFilters()">
+            Clear
+          </button>
+        </div>
       </div>
-      <div class="card tasks-cards">
+      <div class="tasks-cards">
         <div
           class="card inner-card"
-          *ngFor="let task of tasks"
+          *ngFor="let task of filteredTasks"
           style="text-align: left; border-left: 5px solid blue"
         >
           <div class="card-header">
@@ -229,20 +274,35 @@
                 <h5>{{ task.title }}</h5>
               </div>
               <div style="display: flex; gap: 5px; margin-top: 3px">
-                <span class="badge" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
-                <span class="badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</span>
+                <span class="badge" [ngClass]="getStatusClass(task.status)">{{
+                  task.status
+                }}</span>
+                <span
+                  class="badge"
+                  [ngClass]="getPriorityClass(task.priority)"
+                  >{{ task.priority }}</span
+                >
               </div>
             </div>
-            <div class="menu-trigger" (click)="toggleMenu($event, task.sno)">
+            <div class="menu-trigger" (click)="toggleMenu($event, task._id!)">
               <div class="bi bi-three-dots fs-5"></div>
-              <div *ngIf="activeMenuId === task.sno" class="popup-menu">
+              <div *ngIf="activeMenuId === task._id" class="popup-menu">
                 <div class="list-group">
-                    <span (click)="activeMenuId = null" class="close-btn" id="closeModal">&times;</span>
-                  <a class="list-group-item" (click)="editTask(task)">
-                    <i (click)="editTask(task)" class="bi bi-pencil-square">Edit</i>
+                  <span
+                    (click)="activeMenuId = null"
+                    class="close-btn"
+                    id="closeModal"
+                    >&times;</span
+                  >
+                  <a class="list-group-item">
+                    <i (click)="editTask(task)" class="bi bi-pencil-square"
+                      >Edit</i
+                    >
                   </a>
-                  <a *ngIf="userRole=== 'admin'" class="list-group-item">
-                    <i (click)="deleteTask(task)" class="bi bi-trash3">Delete</i>
+                  <a *ngIf="userRole === 'admin'" class="list-group-item">
+                    <i (click)="deleteTask(task)" class="bi bi-trash3"
+                      >Delete</i
+                    >
                   </a>
                 </div>
               </div>
@@ -251,8 +311,12 @@
 
           <div class="card-body">
             <p>{{ task.desc }}</p>
-            <p *ngIf="userRole === 'admin'"><strong>Assigned To:</strong> {{ task.assignedTo }}</p>
-            <p *ngIf="userRole === 'member'"><strong>Assigned By:</strong> {{ task.assignee }}</p>
+            <p *ngIf="userRole === 'admin'">
+              <strong>Assigned To:</strong> {{ task.assignedTo }}
+            </p>
+            <p *ngIf="userRole === 'member'">
+              <strong>Assigned By:</strong> {{ task.assignee }}
+            </p>
             <p>
               <strong>Due Date:</strong> {{ task.dueDate | date : "shortDate" }}
             </p>

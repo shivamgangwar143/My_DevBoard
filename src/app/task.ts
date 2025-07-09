@@ -1,5 +1,4 @@
 export class Task{
-    sno: number = 0; // Added sno field for unique identification
     title: string = "";
     status: string = "Pending"; // Added status field
     desc: string = "";
@@ -8,9 +7,10 @@ export class Task{
     assignedTo: string = ""; // Added assignedTo field
     assignee: string = ""; // Added assignedTo field
     active: boolean = false;
+    
 
-    constructor(sno: number, title: string, desc: string, active: boolean, status: string = "Pending", priority: string = "Medium", dueDate: string = "",assignedTo: string , assignee: string = "") {
-        this.sno = sno;
+    constructor( title: string, desc: string, active: boolean, status: string = "Pending", priority: string = "Medium", dueDate: string = "",assignedTo: string , assignee: string = "", public _id?: string) {
+        
         this.title = title;
         this.desc = desc;
         this.active = active;
