@@ -28,7 +28,7 @@ const routes: Routes = [
     path: '',
     component: FullLayoutComponent,
     children: [
-      { path: 'profile', component: AppComponent },
+      { path: 'home', component: AppComponent },
       // Add more secure routes here
     ]
   },

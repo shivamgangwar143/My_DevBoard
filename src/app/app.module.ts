@@ -9,8 +9,6 @@ import { UserentryComponent } from './userentry/userentry.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { FullLayoutComponent } from './layouts/full-layout/full-layout.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
@@ -25,8 +23,6 @@ import { AuthInterceptor } from './auth.interceptor';
     RegisterComponent,
     AuthLayoutComponent,
     FullLayoutComponent,
-    NavbarComponent,
-    ProfileComponent,
     HomeComponent,
     DashboardComponent  ],
   imports: [
